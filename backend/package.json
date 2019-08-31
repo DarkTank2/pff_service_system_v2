@@ -1,0 +1,19 @@
+{
+  "name": "pff_service_tool_backend",
+  "version": "1.0.0",
+  "description": "backend for the gr36 service tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "dev"
+  },
+  "author": "Seiler, Alexander",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "bunyan": "^1.8.12",
+    "bunyan-prettystream": "^0.1.3",
+    "express": "^4.17.1",
+    "mariadb": "^2.1.0",
+    "moment": "^2.24.0"
+  }
+}
