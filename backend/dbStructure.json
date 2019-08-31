@@ -1,0 +1,26 @@
+[
+    {
+        "table": "Bestellung",
+        "query": "create table if not exists Bestellung (idBestellung int not null primary key AUTO_INCREMENT, Tisch_idTisch int);"
+    },
+    {
+        "table": "Tisch",
+        "query": "create table if not exists Tisch (idTisch int not null primary key AUTO_INCREMENT, Number int);"
+    },
+    {
+        "table": "Essen",
+        "query": "create table if not exists Essen (idEssen int not null primary key AUTO_INCREMENT, depleted boolean, category varchar(32), Name varchar(32), pictureName varchar(32), price float);"
+    },
+    {
+        "table": "Trinken",
+        "query": "create table if not exists Trinken (idTrinken int not null primary key AUTO_INCREMENT, depleted boolean, category varchar(32), Name varchar(32), pictureName varchar(32), price float);"
+    },
+    {
+        "table": "BestellungTrinken",
+        "query": "create table if not exists BestellungTrinken (Bestellung_idBestellung int, Trinken_idTrinken int, Stueck int, finished boolean, served boolean, timePlaced varchar(25), timeFinished varchar(25),timeServed varchar(25));"
+    },
+    {
+        "table": "BestellungEssen",
+        "query": "create table if not exists BestellungEssen (Bestellung_idBestellung int, Essen_idEssen int, Stueck int, finished boolean, served boolean, timePlaced varchar(25), timeFinished varchar(25),timeServed varchar(25));"
+    }
+]
