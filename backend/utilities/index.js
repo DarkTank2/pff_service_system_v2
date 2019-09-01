@@ -10,5 +10,6 @@ module.exports = {
     addTables: dbConnector.addTables,
     getTables: dbConnector.getTables,
     getItemsByCategory: dbConnector.getItemsByCategory,
-    getCategories: dbConnector.getCategories
+    getCategories: dbConnector.getCategories,
+    placeOrder: dbConnector.placeOrder
 }

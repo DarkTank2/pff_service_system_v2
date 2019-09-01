@@ -172,11 +172,61 @@ function getCategories(request, type) {
     })
 }
 
+function placeOrder(request) {
+    var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
+    logger.info(logPrefix, '[getCategories()]')
+    var now = moment().format()
+    return new Promise((resolve, reject) => {
+        var insertOrderQuery = 'insert into Bestellung (Tisch_idTisch) values (?);'
+        var insertOrderOptions = [request.body.idTisch]
+        pool.getConnection().then(con => {
+            logger.debug(logPrefix, 'Connection established')
+            logger.info(logPrefix, '[Query]   ' + insertOrderQuery)
+            logger.info(logPrefix, '[Options] ' + '[' + insertOrderOptions.join(' ') + ']')
+            con.query(insertOrderQuery, insertOrderOptions).then(data => {
+                var idBestellung = data.insertId // gets the id of the placed order
+                logger.info(logPrefix, 'Added order with id: ' + idBestellung)
+                var promises = []
+                request.body.food.forEach(item => {
+                    var insertItemOrderQuery = 'insert into BestellungEssen (Bestellung_idBestellung, Essen_idEssen, Stueck, finished, served, timePlaced, timeFinished, timeServed) values (?, ?, ?, ?, ?, ?, ?, ?);'
+                    var insertItemOrderOptions = [idBestellung, item.idEssen, item.Stueck, false, false, now, '', '']
+                    logger.info(logPrefix, '[Query]   ' + insertItemOrderQuery)
+                    logger.info(logPrefix, '[Options] ' + '[' + insertItemOrderOptions.join(' ') + ']')
+                    promises.push(con.query(insertItemOrderQuery, insertItemOrderOptions))
+                })
+                request.body.drinks.forEach(item => {
+                    var insertItemOrderQuery = 'insert into BestellungTrinken (Bestellung_idBestellung, Trinken_idTrinken, Stueck, finished, served, timePlaced, timeFinished, timeServed) values (?, ?, ?, ?, ?, ?, ?, ?);'
+                    var insertItemOrderOptions = [idBestellung, item.idTrinken, item.Stueck, false, false, now, '', '']
+                    logger.info(logPrefix, '[Query]   ' + insertItemOrderQuery)
+                    logger.info(logPrefix, '[Options] ' + '[' + insertItemOrderOptions.join(' ') + ']')
+                    promises.push(con.query(insertItemOrderQuery, insertItemOrderOptions))
+                })
+                Promise.all(promises).then(data => {
+                    con.end()
+                    resolve(data)
+                }).catch(err => {
+                    logger.error(logPrefix, err)
+                    con.end()
+                    reject(err)
+                })                
+            }).catch(err => {
+                logger.error(logPrefix, err)
+                con.end()
+                reject(err)
+            })
+        }).catch(err => {
+            logger.error(logPrefix, err)
+            reject(err)
+        })
+    })
+}
+
 module.exports = {
     getItems: getItems,
     addItems: addItems,
     addTables: addTables,
     getTables: getTables,
     getItemsByCategory: getItemsByCategory,
-    getCategories: getCategories
+    getCategories: getCategories,
+    placeOrder: placeOrder
 }

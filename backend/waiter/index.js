@@ -18,12 +18,6 @@ var router = express.Router()
 var logger = new (require('../logger'))('waiter')
 var utls = require('../utilities')
 
-router.put('/placeOrder', (request, response) => {
-    var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.debug(logPrefix)
-    response.status(200).send({})
-})
-
 router.get('/getItems/:type/:category', (request, response) => {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
     logger.debug(logPrefix)
@@ -82,6 +76,17 @@ router.get('/getCategories/:type', (request, response) => {
         logger.error(logPrefix, 'Unknown type: ' + type)
         response.status(500).send(new Error('Unknown type: ' + type))
     }
+})
+
+router.put('/placeOrder', (request, response) => {
+    var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
+    logger.debug(logPrefix)
+    utls.placeOrder(request).then(data => {
+        response.status(200).send(data)
+    })
+    .catch(err => {
+        response.status(500).send(err)
+    })
 })
 
 module.exports = router
