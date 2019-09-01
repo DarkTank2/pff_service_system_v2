@@ -5,9 +5,9 @@
  * 
  * This file contains the implementation for the waiter base url endpoints
  *  [PUT] placeOrder
- *  [GET] getFood
- *  [GET] getDrinks
+ *  [GET] getItems/:type/:category
  *  [GET] getCategories
+ *  [GET] getTables
  *
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -24,27 +24,64 @@ router.put('/placeOrder', (request, response) => {
     response.status(200).send({})
 })
 
-router.get('/getFood', (request, response) => {
+router.get('/getItems/:type/:category', (request, response) => {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
     logger.debug(logPrefix)
-    utls.getFood(request).then(data => {
+    var type = request.params.type
+    var category = request.params.category
+    if(type === 'food') {
+        utls.getItemsByCategory(request, 'Essen', category).then(data => {
+            response.status(200).send(data)
+        })
+        .catch(err => {
+            response.status(500).send(err)
+        })
+    } else if (type === 'drinks') {
+        utls.getItemsByCategory(request, 'Trinken', category).then(data => {
+            response.status(200).send(data)
+        })
+        .catch(err => {
+            response.status(500).send(err)
+        })
+    } else {
+        logger.error(logPrefix, 'Unknown type: ' + type)
+        response.status(500).send(new Error('Unknown type: ' + type))
+    }
+})
+
+router.get('/getTables', (request, response) => {
+    var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
+    logger.debug(logPrefix)
+    utls.getTables(request).then(data => {
         response.status(200).send(data)
     })
     .catch(err => {
         response.status(500).send(err)
     })
 })
-router.get('/getDrinks', (request, response) => {
-    var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.debug(logPrefix)
-    response.status(200).send({})
-})
+
 router.get('/getCategories/:type', (request, response) => {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
     logger.debug(logPrefix)
     var type = request.params.type
-    logger.info(logPrefix, 'Get categories of type: ' + (type || 'all'))
-    response.status(200).send({})
+    if (type === 'food') {
+        utls.getCategories(request, 'Essen').then(data => {
+            response.status(200).send(data)
+        })
+        .catch(err => {
+            response.status(500).send(err)
+        })
+    } else if (type === 'drinks') {
+        utls.getCategories(request, 'Trinken').then(data => {
+            response.status(200).send(data)
+        })
+        .catch(err => {
+            response.status(500).send(err)
+        })
+    } else {
+        logger.error(logPrefix, 'Unknown type: ' + type)
+        response.status(500).send(new Error('Unknown type: ' + type))
+    }
 })
 
 module.exports = router
