@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 app.use('/waiter', require('./waiter/'))   // general api for waiters
-// app.use('/servant', require('./servant/')) // general api for servants
+app.use('/servant', require('./servant/')) // general api for servants
 app.use('/buffet', require('./buffet/'))   // general api for the buffet
 app.use('/master', require('./master/'))   // general api for a master
 app.use('/', express.static(path.join(staticFolder, 'index.html'))) // for serving the ui

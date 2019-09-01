@@ -4,6 +4,9 @@ const moment = require('moment')
 
 const credentials = require('./credentials.json')
 
+    // var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
+    // logger.info(logPrefix, '[functionname()]')
+
 const pool = mariadb.createPool({
     host: 'localhost',
     user: credentials.username,
@@ -126,7 +129,7 @@ function getItemsByCategory(request, type, category) {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
     logger.info(logPrefix, '[getItemsByCategory()]')
     return new Promise((resolve, reject) => {
-        var query = 'select * from ' + type + ' where category="' + category + '";'
+        var query = 'select * from ' + type + ' where category="' + category + '" and depleted=false;'
         pool.getConnection().then(con => {
             logger.debug(logPrefix, 'Connection established')
             logger.info(logPrefix, '[Query] ' + query)
@@ -221,6 +224,145 @@ function placeOrder(request) {
     })
 }
 
+function getNotFinishedOrders(request, type) {
+    var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
+    logger.info(logPrefix, '[getNotFinishedOrders()]')
+    return new Promise((resolve, reject) => {
+        // select name, Stück, idBestellung, Number 
+        //      from Bestellung 
+        //      join BestellungEssen 
+        //      join Essen 
+        //      join Tisch 
+        //      where idBestellung = Bestellung_idBestellung 
+        //      and Essen_idEssen = idEssen 
+        //      and finished = '0' 
+        //      and idTisch = Tisch_idTisch 
+        //      order by idBestellung;
+        var query = 'select Name, Stueck, idBestellung, Number '
+            + 'from Bestellung '
+            + 'join Bestellung' + type + ' '
+            + 'join ' + type + ' '
+            + 'join Tisch '
+            + 'where finished=false '
+            + 'and idBestellung = Bestellung_idBestellung '
+            + 'and id' + type + ' = ' + type + '_id' + type + ' '
+            + 'and idTisch = Tisch_idTisch '
+            + 'order by idBestellung;'
+        pool.getConnection().then(con => {
+            logger.debug(logPrefix, 'Connection established')
+            logger.info(logPrefix, '[Query] ' + query)
+            con.query(query).then(data => {
+                con.end()
+                resolve(data)
+            }).catch(err => {
+                logger.error(logPrefix, err)
+                con.end()
+                reject(err)
+            })
+        }).catch(err => {
+            logger.error(logPrefix, err)
+            reject(err)
+        }) 
+    })
+}
+
+function updateOrder(request, id,  type, flag) {
+    var logPrefix = '[' + [request.method, request.url, flag.name + ': ' + flag.value].join(' ') + ']'
+    logger.info(logPrefix, '[updateOrder()]')
+    return new Promise((resolve, reject) => {
+        var now = moment().format()
+        var query = 'update Bestellung' + type + ' '
+            + 'set ' + flag.name + '=' + flag.value + ','
+            + 'time' + flag.name + '="' + now + '" '
+            + 'where Bestellung_idBestellung=' + id + ';'
+        pool.getConnection().then(con => {
+            logger.debug(logPrefix, 'Connection established')
+            logger.info(logPrefix, '[Query] ' + query)
+            con.query(query).then(data => {
+                con.end()
+                resolve(data)
+            }).catch(err => {
+                logger.error(logPrefix, err)
+                con.end()
+                reject(err)
+            })
+        }).catch(err => {
+            logger.error(logPrefix, err)
+            reject(err)
+        })
+    })
+}
+
+function updateDepletion(request, id, type, value) {
+    var logPrefix = '[' + [request.method, request.url, value].join(' ') + ']'
+    logger.info(logPrefix, '[updateDepletion()]')
+    var now = moment().format()
+    return new Promise((resolve, reject) => {
+        var query = 'update ' + type + ' set depleted=' + value + ', timeDepleted="' + now + '" where id' + type + '=' + id + ';'
+        pool.getConnection().then(con => {
+            logger.debug(logPrefix, 'Connection established')
+            logger.info(logPrefix, '[Query] ' + query)
+            con.query(query).then(data => {
+                con.end()
+                resolve(data)
+            }).catch(err => {
+                logger.error(logPrefix, err)
+                con.end()
+                reject(err)
+            })
+        }).catch(err => {
+            logger.error(logPrefix, err)
+            reject(err)
+        })        
+    })
+}
+
+function getFinished(request, type) {
+    var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
+    logger.info(logPrefix, '[getFinished()]')
+    return new Promise((resolve, reject) => {
+        var query = 'select distinct idBestellung, Number from Bestellung join Bestellung' + type + ' join Tisch where Tisch_idTisch=idTisch and idBestellung=Bestellung_idBestellung and finished=true and served=false;'
+        pool.getConnection().then(con => {
+            logger.debug(logPrefix, 'Connection established')
+            logger.info(logPrefix, '[Query] ' + query)
+            con.query(query).then(data => {
+                con.end()
+                resolve(data)
+            }).catch(err => {
+                logger.error(logPrefix, err)
+                con.end()
+                reject(err)
+            })
+        }).catch(err => {
+            logger.error(logPrefix, err)
+            reject(err)
+        })
+    })
+}
+
+function getOrder(request, id, type) {
+    var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
+    logger.info(logPrefix, '[getOrder()]')
+    return new Promise((resolve, reject) => {
+        var query = 'select * from Bestellung join Bestellung' + type + ' join ' + type + ' join Tisch where idBestellung=' + id + ' and idBestellung=Bestellung_idBestellung and idTisch=Tisch_idTisch and id' + type + '=' + type + '_id' + type + ';'
+        pool.getConnection().then(con => {
+            logger.debug(logPrefix, 'Connection established')
+            logger.info(logPrefix, '[Query] ' + query)
+            con.query(query).then(data => {
+                con.end()
+                resolve(data)
+            }).catch(err => {
+                logger.error(logPrefix, err)
+                con.end()
+                reject(err)
+            })
+        }).catch(err => {
+            logger.error(lgPrefix, err)
+            reject(err)
+        })
+    })
+}
+
 module.exports = {
     getItems: getItems,
     addItems: addItems,
@@ -228,5 +370,10 @@ module.exports = {
     getTables: getTables,
     getItemsByCategory: getItemsByCategory,
     getCategories: getCategories,
-    placeOrder: placeOrder
+    placeOrder: placeOrder,
+    getNotFinishedOrders: getNotFinishedOrders,
+    updateOrder: updateOrder,
+    updateDepletion: updateDepletion,
+    getFinished: getFinished,
+    getOrder: getOrder
 }
