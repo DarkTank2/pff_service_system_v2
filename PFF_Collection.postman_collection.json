@@ -1,0 +1,382 @@
+{
+	"info": {
+		"_postman_id": "3283dcf0-d082-45b5-9b02-b506c17e960a",
+		"name": "PFF Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "[buffet] getItems/:type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/buffet/getItems/food",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"buffet",
+						"getItems",
+						"food"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[master] addItems/food",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"Name\": \"Schinkenbrötchen\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 1.2,\n\t\t\"category\": \"Brote\"\n\t},\n\t{\n\t\t\"Name\": \"Käsebrötchen\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 1.2,\n\t\t\"category\": \"Brote\"\n\t},\n\t{\n\t\t\"Name\": \"Lachsbrötchen\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 1.2,\n\t\t\"category\": \"Brote\"\n\t},\n\t{\n\t\t\"Name\": \"Sushi\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 5,\n\t\t\"category\": \"Sushi\"\n\t},\n\t{\n\t\t\"Name\": \"Crevettenkocktail\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 4,\n\t\t\"category\": \"Extra\"\n\t}\n]"
+				},
+				"url": {
+					"raw": "http://localhost:8080/master/addItem/food",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"master",
+						"addItem",
+						"food"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[master] addItems/drinks",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"Name\": \"Chardonnay Flasche\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 9.8,\n\t\t\"category\": \"Weiss\"\n\t},\n\t{\n\t\t\"Name\": \"Chardonnay 1/8\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 2.2,\n\t\t\"category\": \"Weiss\"\n\t},\n\t{\n\t\t\"Name\": \"Chardonnay 1/4\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 1.5,\n\t\t\"category\": \"Weiss\"\n\t},\n\t{\n\t\t\"Name\": \"Wasser Krug\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 0,\n\t\t\"category\": \"Wasser\"\n\t},\n\t{\n\t\t\"Name\": \"Wasser Flasche Vöslauer\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 1.2,\n\t\t\"category\": \"Wasser\"\n\t},\n\t{\n\t\t\"Name\": \"Spritzer Glas\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 0,\n\t\t\"category\": \"Glas\"\n\t},\n\t{\n\t\t\"Name\": \"Bier Glas\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 0,\n\t\t\"category\": \"Glas\"\n\t},\n\t{\n\t\t\"Name\": \"Wasser Glas\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 0,\n\t\t\"category\": \"Glas\"\n\t},\n\t{\n\t\t\"Name\": \"Wein Glas\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 0,\n\t\t\"category\": \"Glas\"\n\t}\n]"
+				},
+				"url": {
+					"raw": "http://localhost:8080/master/addItems/drinks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"master",
+						"addItems",
+						"drinks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[master] addTable",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"Number\": 33\n\t}\n]"
+				},
+				"url": {
+					"raw": "http://localhost:8080/master/addTables",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"master",
+						"addTables"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[waiter] getTables",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/waiter/getTables",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"waiter",
+						"getTables"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[waiter] getItems/:type/:category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/waiter/getItems/food/Sushi",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"waiter",
+						"getItems",
+						"food",
+						"Sushi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[waiter] getCategories/:type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/waiter/getCategories/drinks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"waiter",
+						"getCategories",
+						"drinks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[waiter] placeOrder",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"idTisch\": 1,\n\t\"food\": [\n\t\t{\n\t\t\t\"idEssen\": 6,\n\t\t\t\"Stueck\": 2\n\t\t},\n\t\t{\n\t\t\t\"idEssen\": 8,\n\t\t\t\"Stueck\": 3\n\t\t}\n\t],\n\t\"drinks\": [\n\t\t{\n\t\t\t\"idTrinken\": 5,\n\t\t\t\"Stueck\": 2\n\t\t}\n\t]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/waiter/placeOrder",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"waiter",
+						"placeOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[buffet] getNotFinished/:type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/buffet/getNotFinished/food",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"buffet",
+						"getNotFinished",
+						"food"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[buffet] updateFinished/:id/:type",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"value\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/buffet/updateFinished/6/food",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"buffet",
+						"updateFinished",
+						"6",
+						"food"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[buffet] updateDepletion/:id/:type",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"value\": false\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/buffet/updateDepletion/8/food",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"buffet",
+						"updateDepletion",
+						"8",
+						"food"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[servant] getFinished/:type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/servant/getFinished/food",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"servant",
+						"getFinished",
+						"food"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[servant] getOrder/:id/:type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/servant/getOrder/7/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"servant",
+						"getOrder",
+						"7",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[servant] updateServed/:id/:type",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"value\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/servant/updateServed/7/food",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"servant",
+						"updateServed",
+						"7",
+						"food"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
