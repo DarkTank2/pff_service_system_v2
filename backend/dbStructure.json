@@ -9,11 +9,11 @@
     },
     {
         "table": "Essen",
-        "query": "create table if not exists Essen (idEssen int not null primary key AUTO_INCREMENT, depleted boolean, category varchar(32), Name varchar(32), pictureName varchar(32), price float);"
+        "query": "create table if not exists Essen (idEssen int not null primary key AUTO_INCREMENT, depleted boolean, category varchar(32), Name varchar(32), pictureName varchar(32), price float, timeDepleted varchar(32));"
     },
     {
         "table": "Trinken",
-        "query": "create table if not exists Trinken (idTrinken int not null primary key AUTO_INCREMENT, depleted boolean, category varchar(32), Name varchar(32), pictureName varchar(32), price float);"
+        "query": "create table if not exists Trinken (idTrinken int not null primary key AUTO_INCREMENT, depleted boolean, category varchar(32), Name varchar(32), pictureName varchar(32), price float, timeDepleted varchar(32));"
     },
     {
         "table": "BestellungTrinken",
