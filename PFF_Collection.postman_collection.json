@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3283dcf0-d082-45b5-9b02-b506c17e960a",
+		"_postman_id": "05badc9a-afc6-4d6b-975b-c2316c1a5d15",
 		"name": "PFF Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,16 +11,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/buffet/getItems/food",
+					"raw": "http://localhost:8000/backend/buffet/getItems/drinks",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8000",
 					"path": [
+						"backend",
 						"buffet",
 						"getItems",
-						"food"
+						"drinks"
 					]
 				}
 			},
@@ -43,15 +44,16 @@
 					"raw": "[\n\t{\n\t\t\"Name\": \"Schinkenbrötchen\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 1.2,\n\t\t\"category\": \"Brote\"\n\t},\n\t{\n\t\t\"Name\": \"Käsebrötchen\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 1.2,\n\t\t\"category\": \"Brote\"\n\t},\n\t{\n\t\t\"Name\": \"Lachsbrötchen\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 1.2,\n\t\t\"category\": \"Brote\"\n\t},\n\t{\n\t\t\"Name\": \"Sushi\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 5,\n\t\t\"category\": \"Sushi\"\n\t},\n\t{\n\t\t\"Name\": \"Crevettenkocktail\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 4,\n\t\t\"category\": \"Extra\"\n\t}\n]"
 				},
 				"url": {
-					"raw": "http://localhost:8080/master/addItem/food",
+					"raw": "http://localhost:8000/backend/master/addItems/food",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8000",
 					"path": [
+						"backend",
 						"master",
-						"addItem",
+						"addItems",
 						"food"
 					]
 				}
@@ -75,13 +77,14 @@
 					"raw": "[\n\t{\n\t\t\"Name\": \"Chardonnay Flasche\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 9.8,\n\t\t\"category\": \"Weiss\"\n\t},\n\t{\n\t\t\"Name\": \"Chardonnay 1/8\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 2.2,\n\t\t\"category\": \"Weiss\"\n\t},\n\t{\n\t\t\"Name\": \"Chardonnay 1/4\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 1.5,\n\t\t\"category\": \"Weiss\"\n\t},\n\t{\n\t\t\"Name\": \"Wasser Krug\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 0,\n\t\t\"category\": \"Wasser\"\n\t},\n\t{\n\t\t\"Name\": \"Wasser Flasche Vöslauer\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 1.2,\n\t\t\"category\": \"Wasser\"\n\t},\n\t{\n\t\t\"Name\": \"Spritzer Glas\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 0,\n\t\t\"category\": \"Glas\"\n\t},\n\t{\n\t\t\"Name\": \"Bier Glas\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 0,\n\t\t\"category\": \"Glas\"\n\t},\n\t{\n\t\t\"Name\": \"Wasser Glas\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 0,\n\t\t\"category\": \"Glas\"\n\t},\n\t{\n\t\t\"Name\": \"Wein Glas\",\n\t\t\"pictureName\": \"default.png\",\n\t\t\"price\": 0,\n\t\t\"category\": \"Glas\"\n\t}\n]"
 				},
 				"url": {
-					"raw": "http://localhost:8080/master/addItems/drinks",
+					"raw": "http://localhost:8000/backend/master/addItems/drinks",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8000",
 					"path": [
+						"backend",
 						"master",
 						"addItems",
 						"drinks"
@@ -104,16 +107,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n\t{\n\t\t\"Number\": 33\n\t}\n]"
+					"raw": "[\n\t{\n\t\t\"Number\": 11\n\t},\n\t{\n\t\t\"Number\": 12\n\t},\n\t{\n\t\t\"Number\": 13\n\t},\n\t{\n\t\t\"Number\": 21\n\t},\n\t{\n\t\t\"Number\": 22\n\t},\n\t{\n\t\t\"Number\": 23\n\t},\n\t{\n\t\t\"Number\": 31\n\t},\n\t{\n\t\t\"Number\": 32\n\t},\n\t{\n\t\t\"Number\": 33\n\t}\n]"
 				},
 				"url": {
-					"raw": "http://localhost:8080/master/addTables",
+					"raw": "http://localhost:8000/backend/master/addTables",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8000",
 					"path": [
+						"backend",
 						"master",
 						"addTables"
 					]
@@ -127,13 +131,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/waiter/getTables",
+					"raw": "http://localhost:8000/backend/waiter/getTables",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8000",
 					"path": [
+						"backend",
 						"waiter",
 						"getTables"
 					]
@@ -147,17 +152,18 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/waiter/getItems/food/Sushi",
+					"raw": "http://localhost:8000/backend/waiter/getItems/food/Brote",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8000",
 					"path": [
+						"backend",
 						"waiter",
 						"getItems",
 						"food",
-						"Sushi"
+						"Brote"
 					]
 				}
 			},
@@ -169,16 +175,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/waiter/getCategories/drinks",
+					"raw": "http://localhost:8000/backend/waiter/getCategories/food",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8000",
 					"path": [
+						"backend",
 						"waiter",
 						"getCategories",
-						"drinks"
+						"food"
 					]
 				}
 			},
@@ -201,13 +208,14 @@
 					"raw": "{\n\t\"idTisch\": 1,\n\t\"food\": [\n\t\t{\n\t\t\t\"idEssen\": 6,\n\t\t\t\"Stueck\": 2\n\t\t},\n\t\t{\n\t\t\t\"idEssen\": 8,\n\t\t\t\"Stueck\": 3\n\t\t}\n\t],\n\t\"drinks\": [\n\t\t{\n\t\t\t\"idTrinken\": 5,\n\t\t\t\"Stueck\": 2\n\t\t}\n\t]\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/waiter/placeOrder",
+					"raw": "http://localhost:8000/backend/waiter/placeOrder",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8000",
 					"path": [
+						"backend",
 						"waiter",
 						"placeOrder"
 					]
@@ -221,13 +229,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/buffet/getNotFinished/food",
+					"raw": "http://localhost:8000/backend/buffet/getNotFinished/food",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8000",
 					"path": [
+						"backend",
 						"buffet",
 						"getNotFinished",
 						"food"
@@ -253,13 +262,14 @@
 					"raw": "{\n\t\"value\": true\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/buffet/updateFinished/6/food",
+					"raw": "http://localhost:8000/backend/buffet/updateFinished/6/food",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8000",
 					"path": [
+						"backend",
 						"buffet",
 						"updateFinished",
 						"6",
@@ -286,13 +296,14 @@
 					"raw": "{\n\t\"value\": false\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/buffet/updateDepletion/8/food",
+					"raw": "http://localhost:8000/backend/buffet/updateDepletion/8/food",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8000",
 					"path": [
+						"backend",
 						"buffet",
 						"updateDepletion",
 						"8",
@@ -308,13 +319,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/servant/getFinished/food",
+					"raw": "http://localhost:8000/backend/servant/getFinished/food",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8000",
 					"path": [
+						"backend",
 						"servant",
 						"getFinished",
 						"food"
@@ -329,16 +341,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/servant/getOrder/7/all",
+					"raw": "http://localhost:8000/backend/servant/getOrder/1/all",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8000",
 					"path": [
+						"backend",
 						"servant",
 						"getOrder",
-						"7",
+						"1",
 						"all"
 					]
 				}
@@ -362,13 +375,14 @@
 					"raw": "{\n\t\"value\": true\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/servant/updateServed/7/food",
+					"raw": "http://localhost:8000/backend/servant/updateServed/7/food",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8000",
 					"path": [
+						"backend",
 						"servant",
 						"updateServed",
 						"7",
