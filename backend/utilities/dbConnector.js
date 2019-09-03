@@ -1,6 +1,7 @@
 var logger = new (require('../logger'))('dbConnector')
 const mariadb = require('mariadb')
 const moment = require('moment')
+const dbStructure = require('../dbStructure.json')
 
 const credentials = require('./credentials.json')
 
@@ -14,6 +15,25 @@ const pool = mariadb.createPool({
     connectionLimit: 5,
     database: 'mydb'
 })
+
+function initDatabase() {
+    logger.info('[initDatabase()]')
+    pool.getConnection().then(con => {
+        var promises = []
+        dbStructure.forEach(entry => {
+            logger.info('Table:', entry.table)
+            logger.info('Query:', entry.query)
+            promises.push(con.query(entry.query))
+        })
+        Promise.all(promises).then(() => {
+            logger.info('Database successfully initialized')
+        }).catch(err => {
+            logger.err(err)
+        })
+    }).catch(err => {
+        logger.error(err)
+    })
+}
 
 function getItems(request, type) {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
@@ -375,5 +395,6 @@ module.exports = {
     updateOrder: updateOrder,
     updateDepletion: updateDepletion,
     getFinished: getFinished,
-    getOrder: getOrder
+    getOrder: getOrder,
+    initDatabase: initDatabase
 }

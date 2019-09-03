@@ -2,7 +2,7 @@
 
 var app = require('./bootstrap.js')
 
-var port = 8080
+var port = 4000
 app().listen(port, function () {
     console.log('App is now listening to port ' + port)
 })
