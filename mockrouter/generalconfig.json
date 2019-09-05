@@ -22,7 +22,9 @@
                 "/js/**",
                 "/src/**",
                 "/dist/**",
-                "/libs/**"
+                "/libs/**",
+                "/img/**",
+                "/sockjs-node/**"
             ],
             "type": "frontend",
             "protocol": "http",
