@@ -20,10 +20,16 @@
             append-outer-icon='send' @click:append-outer="handleName">
 
             </v-text-field>
+            <v-btn icon outlined @click="showOverlay = false">
+                <v-icon>
+                    clear
+                </v-icon>
+            </v-btn>
         </v-overlay>
     </v-container>
 </template>
 <script>
+import { EventBus } from '../services/eventBus'
 export default {
     name: 'Login',
     props: [],
@@ -44,6 +50,7 @@ export default {
         },
         handleName: function() {
             window.localStorage.setItem('waiterName', this.name)
+            EventBus.$emit('name-changed')
             this.changeRoute('waiter')
         },
         changeRoute: function (to) {
