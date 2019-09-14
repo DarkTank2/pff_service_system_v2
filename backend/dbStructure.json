@@ -1,7 +1,7 @@
 [
     {
         "table": "Bestellung",
-        "query": "create table if not exists Bestellung (idBestellung int not null primary key AUTO_INCREMENT, Tisch_idTisch int);"
+        "query": "create table if not exists Bestellung (idBestellung int not null primary key AUTO_INCREMENT, Tisch_idTisch int, Kellner varchar(20), commentEssen varchar(250), commentTrinken varchar(250));"
     },
     {
         "table": "Tisch",
