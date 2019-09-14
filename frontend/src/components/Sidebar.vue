@@ -74,7 +74,7 @@ export default {
     },
     methods: {
         handleName: function (newName) {
-            if (newName.length > 20) newName.length = 20
+            if (newName.length > 20) newName = newName.slice(0, 20)
             window.localStorage.setItem('waiterName', newName)
             this.name = newName
         },
