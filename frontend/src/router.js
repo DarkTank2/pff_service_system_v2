@@ -23,6 +23,16 @@ export default new Router({
       component: () => import(/* webpackChunkName: "waiter" */ './views/Waiter.vue')
     },
     {
+      path: '/buffet',
+      name: 'buffet',
+      component: () => import(/* webpackChunkName: "waiter" */ './views/Buffet.vue')
+    },
+    {
+      path: '/buffet/handleDepletion',
+      name: 'Depletion',
+      component: () => import(/* webpackChunkName: "waiter" */ './views/Depletion.vue')
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting

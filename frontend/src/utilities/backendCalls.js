@@ -40,5 +40,28 @@ export default {
                 reject(err.response.data)
             })
         })
+    },
+    getNotFinished: function (type) {
+        return new Promise((resolve, reject) => {
+            var url = '/backend/buffet/getNotFinished/' + type
+            axios.get(url).then(data => {
+                resolve(data.data)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
+    updateFinished: function (type, id, value) {
+        return new Promise((resolve, reject) => {
+            var url = '/backend/buffet/updateFinished/' + id + '/' + type
+            var body = {
+                value
+            }
+            axios.post(url, body).then(data => {
+                resolve(data.data)
+            }).catch(err => {
+                reject(err)
+            })
+        })
     }
 }

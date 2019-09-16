@@ -8,6 +8,8 @@
       </v-toolbar-title>
       <span class="font-weight-light">{{title}}</span>
       <v-spacer></v-spacer>
+      <component v-if="additionalComponent.state === true" :is="additionalComponent.component" :data="additionalComponent.data"></component>
+      <v-spacer></v-spacer>
       <v-switch v-model="darkMode" label="Darkmode" @change="$vuetify.theme.dark = darkMode" hide-details></v-switch>
     </v-app-bar>
     <v-content>
@@ -24,16 +26,26 @@ import Sidebar from './components/Sidebar.vue'
 import {EventBus} from './services/eventBus.js'
 import dbCalls from './utilities/backendCalls.js'
 
+import BuffetBtn from './components/additions/BuffetBtn.vue'
+import DeplBtn from './components/additions/DeplBtn.vue'
+
 export default {
   name: 'App',
   components: {
-    'Sidebar': Sidebar
+    'Sidebar': Sidebar,
+    BuffetBtn,
+    DeplBtn
   },
   data: () => ({
     darkMode: true,
     drawer: false,
     tables: [],
-    title: ''
+    title: '',
+    additionalComponent: {
+      state: false,
+      component: '',
+      data: {}
+    }
   }),
   created: function () {
     EventBus.$on('w-get-tables', () => {
@@ -45,6 +57,16 @@ export default {
     })
     EventBus.$on('change-title', title => {
       this.title = title
+    })
+    EventBus.$on('set-additional-component', comp => {
+      this.additionalComponent.component = comp.component
+      this.additionalComponent.data = comp.data
+      this.additionalComponent.state = true
+    })
+    EventBus.$on('reset-additional-component', () => {
+      this.additionalComponent.state = false
+      this.additionalComponent.component = ''
+      this.additionalComponent.data = {}
     })
     this.$vuetify.theme.dark = this.darkMode
   },
