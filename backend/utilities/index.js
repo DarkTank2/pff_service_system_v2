@@ -17,5 +17,6 @@ module.exports = {
     updateDepletion: dbConnector.updateDepletion,
     getFinished: dbConnector.getFinished,
     getOrder: dbConnector.getOrder,
-    initDatabase: dbConnector.initDatabase
+    initDatabase: dbConnector.initDatabase,
+    updateCashed: dbConnector.updateCashed
 }
