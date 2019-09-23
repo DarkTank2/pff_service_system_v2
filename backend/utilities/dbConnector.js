@@ -212,15 +212,15 @@ function placeOrder(request) {
                 logger.info(logPrefix, 'Added order with id: ' + idBestellung)
                 var promises = []
                 request.body.food.forEach(item => {
-                    var insertItemOrderQuery = 'insert into BestellungEssen (Bestellung_idBestellung, Essen_idEssen, Stueck, finished, served, timePlaced, timeFinished, timeServed) values (?, ?, ?, ?, ?, ?, ?, ?);'
-                    var insertItemOrderOptions = [idBestellung, item.idEssen, item.Stueck, false, false, now, '', '']
+                    var insertItemOrderQuery = 'insert into BestellungEssen (Bestellung_idBestellung, Essen_idEssen, Stueck, finished, served, timePlaced, timeFinished, timeServed, cashed, timeCashed) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);'
+                    var insertItemOrderOptions = [idBestellung, item.idEssen, item.Stueck, false, false, now, '', '', 0, '']
                     logger.info(logPrefix, '[Query]   ' + insertItemOrderQuery)
                     logger.info(logPrefix, '[Options] ' + '[' + insertItemOrderOptions.join(' | ') + ']')
                     promises.push(con.query(insertItemOrderQuery, insertItemOrderOptions))
                 })
                 request.body.drinks.forEach(item => {
-                    var insertItemOrderQuery = 'insert into BestellungTrinken (Bestellung_idBestellung, Trinken_idTrinken, Stueck, finished, served, timePlaced, timeFinished, timeServed) values (?, ?, ?, ?, ?, ?, ?, ?);'
-                    var insertItemOrderOptions = [idBestellung, item.idTrinken, item.Stueck, false, false, now, '', '']
+                    var insertItemOrderQuery = 'insert into BestellungTrinken (Bestellung_idBestellung, Trinken_idTrinken, Stueck, finished, served, timePlaced, timeFinished, timeServed, cashed, timeCashed) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);'
+                    var insertItemOrderOptions = [idBestellung, item.idTrinken, item.Stueck, false, false, now, '', '', 0, '']
                     logger.info(logPrefix, '[Query]   ' + insertItemOrderQuery)
                     logger.info(logPrefix, '[Options] ' + '[' + insertItemOrderOptions.join(' | ') + ']')
                     promises.push(con.query(insertItemOrderQuery, insertItemOrderOptions))
@@ -269,7 +269,7 @@ function getNotFinishedOrders(request, type) {
         //      and finished = '0' 
         //      and idTisch = Tisch_idTisch 
         //      order by idBestellung;
-        var query = 'select Name, Stueck, idBestellung, Number '
+        var query = 'select Name, Stueck, idBestellung, Number, Kellner, comment' + type + ' '
             + 'from Bestellung '
             + 'join Bestellung' + type + ' '
             + 'join ' + type + ' '
@@ -352,7 +352,7 @@ function getFinished(request, type) {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
     logger.info(logPrefix, '[getFinished()]')
     return new Promise((resolve, reject) => {
-        var query = 'select distinct idBestellung, Number from Bestellung join Bestellung' + type + ' join Tisch where Tisch_idTisch=idTisch and idBestellung=Bestellung_idBestellung and finished=true and served=false;'
+        var query = 'select distinct idBestellung, Number from Bestellung join Bestellung' + type + ' join Tisch where Tisch_idTisch=idTisch and idBestellung=Bestellung_idBestellung and finished=true and (served=false or not Stueck=cashed);'
         pool.getConnection().then(con => {
             logger.debug(logPrefix, 'Connection established')
             logger.info(logPrefix, '[Query] ' + query)
@@ -394,6 +394,34 @@ function getOrder(request, id, type) {
     })
 }
 
+function updateCashed (request, idOrder, type, idItem, value) {
+    var logPrefix = '[' + [request.method, request.url, 'idBestellung=' + idOrder, type, 'idItem' + idItem, 'value=' + value].join(' ') + ']'
+    logger.info(logPrefix, '[updateCashed()]')
+    return new Promise((resolve, reject) => {
+        var now = moment().format()
+        var query = 'update Bestellung' + type + ' '
+            + 'set cashed=' + value + ', '
+            + 'timeCashed="' + now + '" '
+            + 'where Bestellung_idBestellung=' + idOrder + ' '
+            + 'and ' + type + '_id' + type + '=' + idItem + ';'
+        pool.getConnection().then(con => {
+            logger.debug(logPrefix, 'Connection established')
+            logger.info(logPrefix, '[Query] ' + query)
+            con.query(query).then(data => {
+                con.end()
+                resolve(data)
+            }).catch(err => {
+                logger.error(logPrefix, err)
+                con.end()
+                reject(err)
+            })
+        }).catch(err => {
+            logger.error(logPrefix, err)
+            reject(err)
+        })
+    })
+}
+
 module.exports = {
     getItems: getItems,
     addItems: addItems,
@@ -407,5 +435,6 @@ module.exports = {
     updateDepletion: updateDepletion,
     getFinished: getFinished,
     getOrder: getOrder,
-    initDatabase: initDatabase
+    initDatabase: initDatabase,
+    updateCashed: updateCashed
 }

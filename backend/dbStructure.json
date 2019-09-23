@@ -17,10 +17,10 @@
     },
     {
         "table": "BestellungTrinken",
-        "query": "create table if not exists BestellungTrinken (Bestellung_idBestellung int, Trinken_idTrinken int, Stueck int, finished boolean, served boolean, timePlaced varchar(25), timeFinished varchar(25),timeServed varchar(25));"
+        "query": "create table if not exists BestellungTrinken (Bestellung_idBestellung int, Trinken_idTrinken int, Stueck int, finished boolean, served boolean, cashed int, timePlaced varchar(25), timeFinished varchar(25),timeServed varchar(25), timeCashed varchar(25));"
     },
     {
         "table": "BestellungEssen",
-        "query": "create table if not exists BestellungEssen (Bestellung_idBestellung int, Essen_idEssen int, Stueck int, finished boolean, served boolean, timePlaced varchar(25), timeFinished varchar(25),timeServed varchar(25));"
+        "query": "create table if not exists BestellungEssen (Bestellung_idBestellung int, Essen_idEssen int, Stueck int, finished boolean, served boolean, cashed int, timePlaced varchar(25), timeFinished varchar(25),timeServed varchar(25), timeCashed varchar(25));"
     }
 ]

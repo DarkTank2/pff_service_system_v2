@@ -108,4 +108,26 @@ router.post('/updateServed/:id/:type', (request, response) => {
     }
 })
 
+router.post('/updateCashed/:id/:type', (request, response) => {
+    var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
+    logger.info(logPrefix)
+    var id = request.params.id
+    var type = request.params.type === 'food' ? 'Essen' : 'Trinken'
+    var item = request.body.item
+    var value = request.body.value
+    if (item === 'all') {
+        utls.updateOrder(request, id, type, {name:'cashed', value:'Stueck'}).then(data => {
+            response.status(200).send(data)
+        }).catch(err => {
+            response.status(500).send(err)
+        })
+    } else {
+        utls.updateCashed(request, id, type, item, value).then(data => {
+            response.status(200).send(data)
+        }).catch(err => {
+            response.status(500).send(err)
+        })
+    }
+})
+
 module.exports = router
