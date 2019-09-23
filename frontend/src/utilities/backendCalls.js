@@ -63,5 +63,28 @@ export default {
                 reject(err)
             })
         })
+    },
+    getItemsDepletion: function (type) {
+        return new Promise((resolve, reject) => {
+            var url = 'backend/buffet/getItems/' + type
+            axios.get(url).then(data => {
+                resolve(data.data)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
+    updateDepletion: function (id, type, value) {
+        return new Promise((resolve, reject) => {
+            var url = 'backend/buffet/updateDepletion/' + id + '/' + type
+            var body = {
+                value
+            }
+            axios.post(url, body).then(data => {
+                resolve(data.data)
+            }).catch(err => {
+                reject(err)
+            })
+        })
     }
 }

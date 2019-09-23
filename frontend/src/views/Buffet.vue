@@ -43,7 +43,10 @@ export default {
     data () {
         return {
             food: [],
-            drinks: []
+            drinks: [],
+            timerTime: undefined,
+            timerFood: undefined,
+            timerDrinks: undefined
         }
     },
     created: function () {
@@ -63,16 +66,20 @@ export default {
     },
     destroyed: function () {
         EventBus.$emit('reset-additional-component')
+        if (this.timerTime !== undefined) clearTimeout(this.timerTime)
+        if (this.timerFood !== undefined) clearTimeout(this.timerFood)
+        if (this.timerDrinks !== undefined) clearTimeout(this.timerDrinks)
+        EventBus.$emit('change-title', '')
     },
     methods: {
         updateTime: function () {
             EventBus.$emit('change-title', moment().format('MMMM Do YYYY, HH:mm:ss'))
-            setTimeout(() => {this.updateTime()}, 1000)
+            this.timerTime = setTimeout(() => {this.updateTime()}, 1000)
         },
         updateFood: function () {
             dbCalls.getNotFinished('food').then(data => {
                 this.food = this.clusterOrder(data, 'food')
-                setTimeout(() => {this.updateFood()}, 5000)
+                this.timerFood = setTimeout(() => {this.updateFood()}, 5000)
             }).catch(err => {
                 console.log(err)
             })
@@ -80,7 +87,7 @@ export default {
         updateDrinks: function () {
             dbCalls.getNotFinished('drinks').then(data => {
                 this.drinks = this.clusterOrder(data, 'drinks')
-                setTimeout(() => {this.updateDrinks()}, 5000)
+                this.timerDrinks = setTimeout(() => {this.updateDrinks()}, 5000)
             }).catch(err => {
                 console.log(err)
             })
