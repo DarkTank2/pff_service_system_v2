@@ -1,0 +1,22 @@
+{
+  "name": "pff_service_system_v2",
+  "version": "1.0.0",
+  "description": "The service-system for the 36er-ball redesigned in VUE with VUETIFY.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "mock": "cd mockrouter && node index.js",
+    "back": "cd backend && node index.js",
+    "front": "cd frontend && npm run serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarkTank2/pff_service_system_v2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DarkTank2/pff_service_system_v2/issues"
+  },
+  "homepage": "https://github.com/DarkTank2/pff_service_system_v2#readme"
+}
