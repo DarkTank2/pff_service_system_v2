@@ -18,5 +18,9 @@ module.exports = {
     getFinished: dbConnector.getFinished,
     getOrder: dbConnector.getOrder,
     initDatabase: dbConnector.initDatabase,
-    updateCashed: dbConnector.updateCashed
+    updateCashed: dbConnector.updateCashed,
+    getNotServedTables: dbConnector.getNotServedTables,
+    getNotCashedTables: dbConnector.getNotCashedTables,
+    getNotServedItemsByTable: dbConnector.getNotServedItemsByTable,
+    getNotCashedItemsByTable: dbConnector.getNotCashedItemsByTable
 }

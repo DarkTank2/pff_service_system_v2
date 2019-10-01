@@ -422,6 +422,135 @@ function updateCashed (request, idOrder, type, idItem, value) {
     })
 }
 
+function getNotServedTables (request, type) {
+    var logPrefix = '[' + [request.method, request.url, type].join(' ') + ']'
+    logger.info(logPrefix, '[getNotServedTables()]')
+    return new Promise((resolve, reject) => {
+        var query = 'select distinct idTisch, Number '
+            + 'from bestellung '
+            + 'join tisch '
+            + 'join bestellung' + type + ' '
+            + 'where Bestellung_idBestellung=idBestellung '
+            + 'and Tisch_idTisch=idTisch '
+            + 'and served=false AND finished=true;'
+        pool.getConnection().then(con => {
+            logger.debug(logPrefix, 'Connection established')
+            logger.info(logPrefix, '[Query] ' + query)
+            con.query(query).then(data => {
+                con.end()
+                resolve(data)
+            }).catch(err => {
+                logger.error(logPrefix, err)
+                con.end()
+                reject(err)
+            })
+        }).catch(err => {
+            logger.error(logPrefix, err)
+            reject(err)
+        })
+    })
+}
+
+function getNotCashedTables (request, type) {
+    var logPrefix = '[' + [request.method, request.url, type].join(' ') + ']'
+    logger.info(logPrefix, '[getNotCashedTables()]')
+    return new Promise((resolve, reject) => {
+        var query = 'select distinct idTisch, Number '
+            + 'from bestellung '
+            + 'join tisch '
+            + 'join bestellung' + type + ' '
+            + 'where Bestellung_idBestellung=idBestellung '
+            + 'and Tisch_idTisch=idTisch '
+            + 'and served=true '
+            + 'and not cashed=Stueck;'
+        pool.getConnection().then(con => {
+            logger.debug(logPrefix, 'Connection established')
+            logger.info(logPrefix, '[Query] ' + query)
+            con.query(query).then(data => {
+                con.end()
+                resolve(data)
+            }).catch(err => {
+                logger.error(logPrefix, err)
+                con.end()
+                reject(err)
+            })
+        }).catch(err => {
+            logger.error(logPrefix, err)
+            reject(err)
+        })
+    })
+}
+
+function getNotServedItemsByTable (request, type, tableId) {
+    var logPrefix = '[' + [request.method, request.url, type, tableId].join(' ') + ']'
+    logger.info(logPrefix, '[getNotServedItemsByTable()]')
+    return new Promise((resolve, reject) => {
+        var orderType = 'bestellung' + type
+        var type_idtype = type + '_id' + type
+        var idType = 'id' + type
+        var query = 'SELECT idBestellung, Kellner, Stueck, served, cashed, NAME, price, ' + idType + ' as idItem '
+            + 'FROM bestellung '
+            + 'JOIN ' + orderType + ' '
+            + 'JOIN ' + type + ' '
+            + 'WHERE served=FALSE AND finished=true '
+            + 'AND Bestellung_idBestellung=idBestellung '
+            + 'AND ' + type_idtype + '=' + idType + ' '
+            + 'AND Tisch_idTisch=' + tableId + ' '
+            + 'ORDER BY idBestellung ASC;'
+        pool.getConnection().then(con => {
+            logger.debug(logPrefix, 'Connection established')
+            logger.info(logPrefix, '[Query] ' + query)
+            con.query(query).then(data => {
+                con.end()
+                resolve(data)
+            }).catch(err => {
+                logger.error(logPrefix, err)
+                con.end()
+                reject(err)
+            })
+        }).catch(err => {
+            logger.error(logPrefix, err)
+            reject(err)
+        })
+    })
+
+}
+
+function getNotCashedItemsByTable (request, type, tableId) {
+    var logPrefix = '[' + [request.method, request.url, type, tableId].join(' ') + ']'
+    logger.info(logPrefix, '[getNotCashedItemsByTable()]')
+    return new Promise((resolve, reject) => {
+        var orderType = 'bestellung' + type
+        var type_idtype = type + '_id' + type
+        var idType = 'id' + type
+        var query = 'SELECT idBestellung, Kellner, Stueck, served, cashed, NAME, price, ' + idType + ' as idItem '
+        + 'FROM bestellung '
+        + 'JOIN ' + orderType + ' '
+        + 'JOIN ' + type + ' '
+        + 'WHERE served=TRUE AND NOT cashed=Stueck '
+        + 'AND Bestellung_idBestellung=idBestellung '
+        + 'AND ' + type_idtype + '=' + idType + ' '
+        + 'AND Tisch_idTisch=' + tableId + ' '
+        + 'ORDER BY idBestellung ASC;'
+        pool.getConnection().then(con => {
+            logger.debug(logPrefix, 'Connection established')
+            logger.info(logPrefix, '[Query] ' + query)
+            con.query(query).then(data => {
+                con.end()
+                resolve(data)
+            }).catch(err => {
+                logger.error(logPrefix, err)
+                con.end()
+                reject(err)
+            })
+        }).catch(err => {
+            logger.error(logPrefix, err)
+            reject(err)
+        })
+    })
+
+}
+
 module.exports = {
     getItems: getItems,
     addItems: addItems,
@@ -436,5 +565,9 @@ module.exports = {
     getFinished: getFinished,
     getOrder: getOrder,
     initDatabase: initDatabase,
-    updateCashed: updateCashed
+    updateCashed: updateCashed,
+    getNotServedTables: getNotServedTables,
+    getNotCashedTables: getNotCashedTables,
+    getNotServedItemsByTable: getNotServedItemsByTable,
+    getNotCashedItemsByTable: getNotCashedItemsByTable
 }
