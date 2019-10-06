@@ -17,6 +17,11 @@
                     <WTableSelector/>
                 </v-list-item-content>
             </v-list-item>
+            <v-list-item v-if="$route.fullPath.includes('/servant')">
+                <v-list-item-content>
+                    <STableSelector :compressed="true"/>
+                </v-list-item-content>
+            </v-list-item>
             <v-list-item>
                 <v-list-item-content>
                     <div class="pa-2">
@@ -27,12 +32,22 @@
                     </div>
                 </v-list-item-content>
             </v-list-item>
+            <v-list-item>
+                <v-list-item-content>
+                    <div class="pa-2">
+                        <v-btn block @click="handleRefreshClick">
+                            <span>Refresh</span>
+                            <v-icon>refresh</v-icon>
+                        </v-btn>
+                    </div>
+                </v-list-item-content>
+            </v-list-item>
             <v-list-item v-if="$route.fullPath.includes('/waiter')">
                 <v-list-item-content>
                     <div class="pa-2">
                         <v-btn to='/' block @click="handleLogOut">
                             <span>Abmelden</span>
-                            <v-icon>home</v-icon>
+                            <v-icon>logout</v-icon>
                         </v-btn>
                     </div>
                 </v-list-item-content>
@@ -42,13 +57,15 @@
 </template>
 <script>
 import tableSelector from './selectors/tableSelector.vue'
+import servantTableSelector from './selectors/servantTableSelector.vue'
 import { EventBus } from '../services/eventBus'
 
 export default {
     name: 'Sidebar',
     props: [],
     components: {
-        'WTableSelector': tableSelector
+        'WTableSelector': tableSelector,
+        'STableSelector': servantTableSelector
     },
     data () {
         return {
@@ -80,6 +97,9 @@ export default {
         },
         handleLogOut: function () {
             window.localStorage.removeItem('waiterName')
+        },
+        handleRefreshClick: function () {
+            EventBus.$emit('refresh')
         }
     }
 }

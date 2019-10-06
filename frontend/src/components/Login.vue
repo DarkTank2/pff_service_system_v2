@@ -8,7 +8,7 @@
             </v-col>
             <v-col cols='12'>
                 <v-row justify='center' class='pa-5'>
-                    <v-btn x-large block>Servierer/in</v-btn>
+                    <v-btn x-large block to="/servant">Servierer/in</v-btn>
                 </v-row>
             </v-col>
         </v-row>

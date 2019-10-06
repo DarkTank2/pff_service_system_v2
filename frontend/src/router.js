@@ -33,6 +33,33 @@ export default new Router({
       component: () => import(/* webpackChunkName: "waiter" */ './views/Depletion.vue')
     },
     {
+      path: '/servant',
+      name: 'ServantTable',
+      component: () => import(/* webpackChunkName: "waiter" */ './views/ServantTableSelector.vue')
+    },
+    {
+      path: '/servant/:tableId',
+      name: 'Servant',
+      component: () => import(/* webpackChunkName: "waiter" */ './views/Servant.vue'),
+      children: [
+        {
+          path: '',
+          name: 'ServantBase',
+          component: () => import(/* webpackChunkName: "waiter" */ './views/ServantBase.vue')
+        },
+        {
+          path: 'cash',
+          name: 'ServantCash',
+          component: () => import(/* webpackChunkName: "waiter" */ './views/ServantCash.vue')
+        },
+        {
+          path: 'serve',
+          name: 'ServantServe',
+          component: () => import(/* webpackChunkName: "waiter" */ './views/ServantServe.vue')
+        }
+      ]
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
