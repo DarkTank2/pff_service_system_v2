@@ -27,7 +27,7 @@
                 <v-col>
                     <span>
                         Gesamtbetrag: 
-                        {{sum}}
+                        {{Math.round(sum * 100) / 100}}
                         €
                     </span>
                 </v-col>

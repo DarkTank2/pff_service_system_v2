@@ -71,9 +71,7 @@ export default {
         }
     },
     created: function () {
-        EventBus.$on('refresh', () => {
-            this.getItems()
-        })
+        EventBus.$on('refresh', this.getItems)
         EventBus.$on('send-table', table => {
             if (table === undefined) return
             this.table = table
@@ -92,6 +90,9 @@ export default {
         this.getItems()
         EventBus.$emit('get-table')
         // this.timer = setTimeout(this.timerCallback, 10000)
+    },
+    beforeDestroy: function () {
+        EventBus.$off('refresh', this.getItems)
     },
     destroyed: function () {
         if (this.timer !== undefined) clearTimeout(this.timer)

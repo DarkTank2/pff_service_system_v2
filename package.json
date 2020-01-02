@@ -18,5 +18,6 @@
   "bugs": {
     "url": "https://github.com/DarkTank2/pff_service_system_v2/issues"
   },
-  "homepage": "https://github.com/DarkTank2/pff_service_system_v2#readme"
+  "homepage": "https://github.com/DarkTank2/pff_service_system_v2#readme",
+  "dependencies": {}
 }

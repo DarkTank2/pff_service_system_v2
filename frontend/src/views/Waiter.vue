@@ -1,72 +1,74 @@
 <template>
     <v-card>
-        <v-tabs center-active>
+        <v-tabs center-active v-model="tabs">
             <v-tab>
                 <v-icon left>more_vert</v-icon>
                 Allg.
             </v-tab>
-            <v-tab v-for="(cat, index) in food" :key="'food' + index">
+            <v-tab v-for="(cat) in food" :key="'tab-' + cat.key">
                 <v-icon left>local_dining</v-icon>
                 {{cat.category}}
             </v-tab>
-            <v-tab v-for="(cat, index) in drinks" :key="'drinks' + index">
+            <v-tab v-for="(cat) in drinks" :key="'tab-' + cat.key">
                 <v-icon left>local_bar</v-icon>
                 {{cat.category}}
             </v-tab>
-            <v-tab-item>
-                <v-card flat>
-                    <v-container>
-                        <v-row>
-                            <v-col cols='12'>
-                                <v-textarea
-                                label="Kommentar Essen"
-                                rows="4"
-                                counter="250"
-                                :rules="rules"
-                                clearable
-                                auto-grow
-                                prepend-icon="local_dining"
-                                v-model="commentEssen"
-                                >
-                                </v-textarea>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols='12'>
-                                <v-textarea
-                                label="Kommentar Trinken"
-                                rows="4"
-                                counter="250"
-                                :rules="rules"
-                                clearable
-                                auto-grow
-                                prepend-icon="local_bar"
-                                v-model="commentTrinken"
-                                >
-                                </v-textarea>
-                            </v-col>
-                        </v-row>
-                    </v-container>
-                    <v-card-actions>
-                        <v-btn outlined @click="invokeCheckout">
-                            <v-icon>
-                                send
-                            </v-icon>
-                            Checkout
-                        </v-btn>
-                        <v-btn outlined @click="reset">
-                            <v-icon>clear</v-icon>
-                            Reset
-                        </v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-tab-item>
-            <v-tab-item v-for="(cat, index) in food" :key="'foodItems' + index">
-                <WCategory type="food" :category="cat.category"/>
-            </v-tab-item>
-            <v-tab-item v-for="(cat, ind) in drinks" :key="'drinksItems' + ind">
-                <WCategory type="drinks" :category="cat.category"/>
-            </v-tab-item>
+            <v-tabs-items v-model="tabs">
+                <v-tab-item>
+                    <v-card flat>
+                        <v-container>
+                            <v-row>
+                                <v-col cols='12'>
+                                    <v-textarea
+                                    label="Kommentar Essen"
+                                    rows="4"
+                                    counter="250"
+                                    :rules="rules"
+                                    clearable
+                                    auto-grow
+                                    prepend-icon="local_dining"
+                                    v-model="commentEssen"
+                                    >
+                                    </v-textarea>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols='12'>
+                                    <v-textarea
+                                    label="Kommentar Trinken"
+                                    rows="4"
+                                    counter="250"
+                                    :rules="rules"
+                                    clearable
+                                    auto-grow
+                                    prepend-icon="local_bar"
+                                    v-model="commentTrinken"
+                                    >
+                                    </v-textarea>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                        <v-card-actions>
+                            <v-btn outlined @click="invokeCheckout">
+                                <v-icon>
+                                    send
+                                </v-icon>
+                                Checkout
+                            </v-btn>
+                            <v-btn outlined @click="reset">
+                                <v-icon>clear</v-icon>
+                                Reset
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-tab-item>
+                <v-tab-item v-for="(cat) in food" :key="cat.key">
+                    <WCategory type="food" :category="cat.category"/>
+                </v-tab-item>
+                <v-tab-item v-for="(cat) in drinks" :key="cat.key">
+                    <WCategory type="drinks" :category="cat.category"/>
+                </v-tab-item>
+            </v-tabs-items>
         </v-tabs>
         <v-dialog v-model="checkout" scrollable max-width="310px">
             <v-card>
@@ -128,6 +130,7 @@ export default {
                 Number: 0,
                 idTisch: 0
             },
+            tabs: 0,
             food: [],
             drinks: [],
             commentEssen: '',
@@ -159,21 +162,27 @@ export default {
         }
     },
     created: function () {
-        EventBus.$on('w-receive-tables', tables => {
-            this.tables = tables
-            this.selectTable(this.$route.params.tableId)
-        })
+        EventBus.$on('w-receive-tables', this.receiveTables)
         EventBus.$on('waiter-reset', () => {
             this.commentEssen = ''
             this.commentTrinken = ''
         })
+        EventBus.$on('refresh', this.fetchCategories)
         this.selectTable(this.$route.params.tableId)
     },
     mounted: function () {
-        EventBus.$emit('w-get-tables')
+        this.tables.length === 0 ? EventBus.$emit('w-get-tables') : {}
         this.fetchCategories()
     },
+    beforeDestroy: function () {
+        EventBus.$off('w-receive-tables', this.receiveTables)
+        EventBus.$off('refresh', this.fetchCategories)
+    },
     methods: {
+        receiveTables: function (tables) {
+            this.tables = tables
+            this.selectTable(this.$route.params.tableId)
+        },
         selectTable: function (tableId) {
             if (tableId !== undefined && this.tables.length > 0) {
                 this.table = this.tables.find(table => table.idTisch === parseInt(tableId))
@@ -226,13 +235,18 @@ export default {
             })
         },
         fetchCategories: function () {
+            this.tabs = 0
             dbCalls.getCategories('food').then(data => {
+                data.forEach(cat => cat.key = 'cat-food-' + cat.category)
                 this.food = data
+                EventBus.$emit('refresh-food')
             }).catch(err => {
                 console.log(err)
             })
             dbCalls.getCategories('drinks').then(data => {
+                data.forEach(cat => cat.key = 'cat-drinks-' + cat.category)
                 this.drinks = data
+                EventBus.$emit('refresh-drinks')
             }).catch(err => {
                 console.log(err)
             })

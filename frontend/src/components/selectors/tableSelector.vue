@@ -15,14 +15,14 @@ export default {
         }
     },
     created: function () {
-        EventBus.$on('w-receive-tables', tables => {
-            this.tables = tables
-            this.selectTable(this.$route.params.tableId)
-        })
+        EventBus.$on('w-receive-tables', this.receiveTables)
         this.selectTable(this.$route.params.tableId)
     },
     mounted: function () {
-        EventBus.$emit('w-get-tables')
+        this.tables.length === 0 ? EventBus.$emit('w-get-tables') : {}
+    },
+    beforeDestroy: function () {
+        EventBus.$off('w-receive-tables', this.receiveTables)
     },
     methods: {
         handleInput: function (data) {
@@ -35,6 +35,10 @@ export default {
             } else {
                 this.table = {}
             }
+        },
+        receiveTables: function (tables) {
+            this.tables = tables
+            this.selectTable(this.$route.params.tableId)
         }
     },
     watch: {

@@ -15,6 +15,10 @@
                 <v-list-item v-for="(item, ind) of order.drinks" :key="'itemDrinks/' + ind">
                     {{item.cashed + '/' + item.Stueck + ' ' + item.NAME + ' zu je ' + item.price + '€'}}
                 </v-list-item>
+                <v-divider></v-divider>
+                <v-list-item>
+                    {{'Summe: ' + (Math.round(this.sum * 100) / 100) + '€'}}
+                </v-list-item>
             </v-list>
             <v-row>
                 <v-col>
@@ -42,7 +46,7 @@ export default {
     components: {},
     data () {
         return {
-            
+            sum: 0
         }
     },
     created: function () {
@@ -50,6 +54,12 @@ export default {
     },
     mounted: function () {
         
+    },
+    watch: {
+        order: {
+            handler: 'sumUpOrder',
+            immediate: true
+        }
     },
     methods: {
         serveOrder: function () {
@@ -81,10 +91,22 @@ export default {
             }).catch(err => {
                 console.log(err)
             })
+        },
+        sumUpOrder: function (order) {
+            this.sum = 0
+            if (order.food) {
+                order.food.forEach(item => {
+                    this.sum += item.price * item.Stueck
+                    this.sum = Math.round(this.sum * 100) / 100
+                })
+            }
+            if (order.drinks) {
+                order.drinks.forEach(item => {
+                    this.sum += item.price * item.Stueck
+                    this.sum = Math.round(this.sum * 100) / 100
+                })
+            }
         }
-    },
-    watch: {
-        
     }
 }
 </script>

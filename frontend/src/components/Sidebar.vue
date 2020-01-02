@@ -12,7 +12,7 @@
                     <v-text-field label="Dein Name" v-model="name" clearable @change="handleName" :rules="rules"></v-text-field>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="$route.fullPath.includes('/waiter')">
+            <v-list-item v-if="$route.name === 'waiterTable'">
                 <v-list-item-content>
                     <WTableSelector/>
                 </v-list-item-content>
@@ -25,9 +25,27 @@
             <v-list-item>
                 <v-list-item-content>
                     <div class="pa-2">
-                        <v-btn to='/' block>
+                        <v-btn @click="handleHome" block>
                             <span>Home</span>
                             <v-icon>home</v-icon>
+                        </v-btn>
+                    </div>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item v-if="$route.fullPath.includes('/servant')">
+                <v-list-item-content>
+                    <div class="pa-2">
+                        <v-btn block @click="handleRoleChange('/waiter')">
+                            <span>Kellner/In</span>
+                        </v-btn>
+                    </div>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item v-if="$route.fullPath.includes('/waiter')">
+                <v-list-item-content>
+                    <div class="pa-2">
+                        <v-btn block @click="handleRoleChange('/servant')">
+                            <span>Servierer/In</span>
                         </v-btn>
                     </div>
                 </v-list-item-content>
@@ -45,7 +63,7 @@
             <v-list-item v-if="$route.fullPath.includes('/waiter')">
                 <v-list-item-content>
                     <div class="pa-2">
-                        <v-btn to='/' block @click="handleLogOut">
+                        <v-btn block @click="handleLogOut">
                             <span>Abmelden</span>
                             <v-icon>logout</v-icon>
                         </v-btn>
@@ -96,10 +114,21 @@ export default {
             this.name = newName
         },
         handleLogOut: function () {
+            EventBus.$emit('change-title', '')
             window.localStorage.removeItem('waiterName')
+            EventBus.$emit('reset-tables')
+            this.$router.push('/')
         },
         handleRefreshClick: function () {
             EventBus.$emit('refresh')
+        },
+        handleHome: function () {
+            EventBus.$emit('change-title', '')
+            this.$router.push('/')
+        },
+        handleRoleChange: function (to) {
+            EventBus.$emit('change-title', '')
+            this.$router.push(to)
         }
     }
 }

@@ -32,7 +32,6 @@ export default {
         }
     },
     created: function () {
-        EventBus.$on('update', this.fetchItems)
         EventBus.$on('get-order', order => {
             this.items
             .filter(item => item.amount > 0)
@@ -45,10 +44,14 @@ export default {
             this.items.forEach(item => {item.amount = 0})
             this.fetchItems()
         })
+        EventBus.$on('refresh-' + this.type, this.fetchItems)
     },
     mounted: function () {
         this.fetchItems()
         this.id = this.type === 'food' ? 'idEssen' : 'idTrinken'
+    },
+    beforeDestroy: function () {
+        EventBus.$off('refresh-' + this.type, this.fetchItems)
     },
     methods: {
         fetchItems: function () {

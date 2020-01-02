@@ -45,16 +45,13 @@ export default {
             if (window.localStorage.getItem('waiterName') === null) {
                 this.showOverlay = true
             } else {
-                this.changeRoute('waiter')
+                this.$router.push('waiter')
             }
         },
         handleName: function() {
             window.localStorage.setItem('waiterName', this.name)
             EventBus.$emit('name-changed')
-            this.changeRoute('waiter')
-        },
-        changeRoute: function (to) {
-            this.$router.push({name: to})
+            this.$router.push('waiter')
         }
     }
 }

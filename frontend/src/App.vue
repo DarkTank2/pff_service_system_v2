@@ -68,6 +68,9 @@ export default {
       this.additionalComponent.component = ''
       this.additionalComponent.data = {}
     })
+    EventBus.$on('reset-tables', () => {
+      this.tables = []
+    })
     this.$vuetify.theme.dark = this.darkMode
   },
   methods: {

@@ -28,7 +28,7 @@ export default {
     },
     created: function () {
         this.selectTable(this.$route.params.tableId)
-        EventBus.$on('refresh', () => {this.getTables()})
+        EventBus.$on('refresh', this.getTables)
         EventBus.$on('get-table', () => {
             EventBus.$emit('send-table', this.table)
         })
@@ -36,6 +36,9 @@ export default {
     mounted: function () {
         this.getTables()
         this.timer = setTimeout(this.timerCallback, 10000)
+    },
+    beforeDestroy: function () {
+        EventBus.$off('refresh', this.getTables)
     },
     destroyed: function () {
         if (this.timer !== undefined) {
