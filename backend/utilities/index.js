@@ -12,6 +12,7 @@ module.exports = {
     getItemsByCategory: dbConnector.getItemsByCategory,
     getCategories: dbConnector.getCategories,
     placeOrder: dbConnector.placeOrder,
+    postCalcOrder: dbConnector.postCalcOrder,
     getNotFinishedOrders: dbConnector.getNotFinishedOrders,
     updateOrder: dbConnector.updateOrder,
     updateDepletion: dbConnector.updateDepletion,

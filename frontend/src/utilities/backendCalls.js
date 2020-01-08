@@ -41,11 +41,38 @@ export default {
             })
         })
     },
+    getCalcItems: function () {
+        return new Promise((resolve, reject) => {
+            var url = '/backend/calc/items'
+            axios.get(url).then(data => {
+                var retObj = {}
+                data.data.forEach(el => {
+                    retObj = {
+                        ...retObj,
+                        ...el
+                    }
+                })
+                resolve(retObj)
+            }).catch(err => {
+                reject(err.response.data)
+            })
+        })
+    },
     putOrder: function (order) {
         return new Promise((resolve, reject) => {
             var url = '/backend/waiter/placeOrder'
             axios.put(url, order).then(data => {
                 resolve(data.data)
+            }).catch(err => {
+                reject(err.response.data)
+            })
+        })
+    },
+    postCalcOrder: function (order) {
+        return new Promise((resolve, reject) => {
+            var url = '/backend/calc/order'
+            axios.post(url, order).then(data => {
+                resolve(data)
             }).catch(err => {
                 reject(err.response.data)
             })

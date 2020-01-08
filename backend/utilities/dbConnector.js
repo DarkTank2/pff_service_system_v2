@@ -255,6 +255,66 @@ function placeOrder(request) {
     })
 }
 
+function postCalcOrder (request) {
+    var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
+    logger.info(logPrefix, '[postCalcOrder()]')
+    var now = moment().format()
+    return new Promise((resolve, reject) => {
+        var insertOrderQuery = 'insert into Bestellung (Tisch_idTisch, commentEssen, commentTrinken, Kellner) values (?, ?, ?, ?);'
+        var body = request.body
+        var insertOrderOptions = [0, 'Buffet-Bestellung', 'Buffet-Bestellung', 'Buffet']
+        pool.getConnection().then(con => {
+            logger.debug(logPrefix, 'Connection established')
+            logger.info(logPrefix, '[Query]   ' + insertOrderQuery)
+            logger.info(logPrefix, '[Options] ' + '[' + insertOrderOptions.join(' | ') + ']')
+            con.query(insertOrderQuery, insertOrderOptions).then(data => {
+                var idBestellung = data.insertId // gets the id of the placed order
+                logger.info(logPrefix, 'Added order with id: ' + idBestellung)
+                var promises = []
+                request.body.food.forEach(item => {
+                    var insertItemOrderQuery = 'insert into BestellungEssen (Bestellung_idBestellung, Essen_idEssen, Stueck, finished, served, timePlaced, timeFinished, timeServed, cashed, timeCashed) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);'
+                    var insertItemOrderOptions = [idBestellung, item.idEssen, item.Stueck, true, true, now, now, now, item.Stueck, now]
+                    logger.info(logPrefix, '[Query]   ' + insertItemOrderQuery)
+                    logger.info(logPrefix, '[Options] ' + '[' + insertItemOrderOptions.join(' | ') + ']')
+                    promises.push(con.query(insertItemOrderQuery, insertItemOrderOptions))
+                })
+                request.body.drinks.forEach(item => {
+                    var insertItemOrderQuery = 'insert into BestellungTrinken (Bestellung_idBestellung, Trinken_idTrinken, Stueck, finished, served, timePlaced, timeFinished, timeServed, cashed, timeCashed) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);'
+                    var insertItemOrderOptions = [idBestellung, item.idTrinken, item.Stueck, true, true, now, now, now, item.Stueck, now]
+                    logger.info(logPrefix, '[Query]   ' + insertItemOrderQuery)
+                    logger.info(logPrefix, '[Options] ' + '[' + insertItemOrderOptions.join(' | ') + ']')
+                    promises.push(con.query(insertItemOrderQuery, insertItemOrderOptions))
+                })
+                Promise.all(promises).then(data => {
+                    con.end()
+                    data.push({orderId: idBestellung})
+                    resolve(data)
+                }).catch(err => {
+                    logger.error(logPrefix, err)
+                    con.end()
+                    var error = {
+                        id: idBestellung,
+                        msg: err
+                    }
+                    reject(error)
+                })                
+            }).catch(err => {
+                logger.error(logPrefix, err)
+                con.end()
+                reject(err)
+            })
+        }).catch(err => {
+            logger.error(logPrefix, err)
+            if (err.code === 'ER_GET_CONNECTION_TIMEOUT') {
+                logger.warn(logPrefix, 'Retrying!')
+                placeOrder(request).then(data => resolve(data)).catch(err => reject(err))
+            } else {
+                reject(err.code)
+            }
+        })
+    })
+}
+
 function getNotFinishedOrders(request, type) {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
     logger.info(logPrefix, '[getNotFinishedOrders()]')
@@ -559,6 +619,7 @@ module.exports = {
     getItemsByCategory: getItemsByCategory,
     getCategories: getCategories,
     placeOrder: placeOrder,
+    postCalcOrder: postCalcOrder,
     getNotFinishedOrders: getNotFinishedOrders,
     updateOrder: updateOrder,
     updateDepletion: updateDepletion,

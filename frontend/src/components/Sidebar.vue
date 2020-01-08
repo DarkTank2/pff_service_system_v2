@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-navigation-drawer v-model="drawerModel" app>
         <v-list>
             <v-list-item>
                 <v-list-item-title>
@@ -71,7 +71,7 @@
                 </v-list-item-content>
             </v-list-item>
         </v-list>
-    </div>
+    </v-navigation-drawer>
 </template>
 <script>
 import tableSelector from './selectors/tableSelector.vue'
@@ -80,7 +80,7 @@ import { EventBus } from '../services/eventBus'
 
 export default {
     name: 'Sidebar',
-    props: [],
+    props: ['drawer'],
     components: {
         'WTableSelector': tableSelector,
         'STableSelector': servantTableSelector
@@ -91,7 +91,8 @@ export default {
             randomNames: ['Starshine', 'Pumpkinface', 'Boo Hoo', 'Tarzan', 'Toto'],
             rules: [
                 v => v.length <= 20 || 'Maximal 20 Zeichen!'
-            ]
+            ],
+            drawerModel: false
         }
     },
     created: function () {
@@ -106,6 +107,7 @@ export default {
             storedName = this.randomNames[index]
         }
         this.name = storedName
+        this.drawerModel = this.drawer
     },
     methods: {
         handleName: function (newName) {
@@ -129,6 +131,14 @@ export default {
         handleRoleChange: function (to) {
             EventBus.$emit('change-title', '')
             this.$router.push(to)
+        }
+    },
+    watch: {
+        drawer: function (newVal) {
+            this.drawerModel = newVal
+        },
+        drawerModel: function (newVal) {
+            this.$emit('update-drawer', newVal)
         }
     }
 }

@@ -15,26 +15,29 @@
     <v-content>
       <router-view/>
     </v-content>
-    <v-navigation-drawer v-model="drawer" app>
-      <Sidebar/>
-    </v-navigation-drawer>
+    <CalcSidebar :drawer="drawer" v-if="$route.fullPath.includes('/calc')"/>
+    <Sidebar :drawer="drawer" v-else v-on:update-drawer="updateDrawer"/>
   </v-app>
 </template>
 
 <script>
 import Sidebar from './components/Sidebar.vue'
+import CalcSidebar from './components/CalcSidebar.vue'
 import {EventBus} from './services/eventBus.js'
 import dbCalls from './utilities/backendCalls.js'
 
 import BuffetBtn from './components/additions/BuffetBtn.vue'
 import DeplBtn from './components/additions/DeplBtn.vue'
+import RefreshBtn from './components/additions/RefreshBtn'
 
 export default {
   name: 'App',
   components: {
     'Sidebar': Sidebar,
     BuffetBtn,
-    DeplBtn
+    DeplBtn,
+    RefreshBtn,
+    CalcSidebar
   },
   data: () => ({
     darkMode: true,
@@ -87,6 +90,9 @@ export default {
       }).catch(err => {
           console.log(err)
       })
+    },
+    updateDrawer: function (newVal) {
+      this.drawer = newVal
     }
   }
 };
