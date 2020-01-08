@@ -1,0 +1,356 @@
+[
+	{
+		"Name": "GV 1/4",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Wein Offen"
+	},
+	{
+		"Name": "Landwein rot 1/4",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Wein Offen"
+	},
+	{
+		"Name": "G'Spritzter 1/4",
+		"pictureName": "default.png",
+		"price": 2.3,
+		"category": "Wein Offen"
+	},
+	{
+		"Name": "Almweiss 1/4",
+		"pictureName": "default.png",
+		"price": 2.3,
+		"category": "Wein Offen"
+	},
+	{
+		"Name": "Almweiss 1/2",
+		"pictureName": "default.png",
+		"price": 4,
+		"category": "Wein Offen"
+    },
+    {
+		"Name": "Cola-Rot 1/4",
+		"pictureName": "default.png",
+		"price": 2.3,
+		"category": "Wein Offen"
+	},
+	{
+		"Name": "Cola-Rot 1/2",
+		"pictureName": "default.png",
+		"price": 4,
+		"category": "Wein Offen"
+	},
+	{
+		"Name": "Wr. Gemischter Satz (Fl.)",
+		"pictureName": "default.png",
+		"price": 14,
+		"category": "Flasche Weiss"
+	},
+	{
+		"Name": "Wr. Gemischter Satz (1/8)",
+		"pictureName": "default.png",
+		"price": 2.8,
+		"category": "Flasche Weiss"
+	},
+	{
+		"Name": "GV DAC (Fl.)",
+		"pictureName": "default.png",
+		"price": 13,
+		"category": "Flasche Weiss"
+	},
+	{
+		"Name": "GV DAC (1/8)",
+		"pictureName": "default.png",
+		"price": 2.6,
+		"category": "Flasche Weiss"
+	},
+	{
+		"Name": "Welchriesling (Fl.)",
+		"pictureName": "default.png",
+		"price": 13,
+		"category": "Flasche Weiss"
+	},
+	{
+		"Name": "Welchriesling (1/8)",
+		"pictureName": "default.png",
+		"price": 2.6,
+		"category": "Flasche Weiss"
+	},
+	{
+		"Name": "Cuvee Fred (Fl.)",
+		"pictureName": "default.png",
+		"price": 13,
+		"category": "Flasche Weiss"
+	},
+	{
+		"Name": "Cuvee Fred (1/8)",
+		"pictureName": "default.png",
+		"price": 2.6,
+		"category": "Flasche Weiss"
+    },
+	{
+		"Name": "Gelber Muskateller (Fl.)",
+		"pictureName": "default.png",
+		"price": 14,
+		"category": "Flasche Weiss"
+	},
+	{
+		"Name": "Gelber Muskateller (1/8)",
+		"pictureName": "default.png",
+		"price": 2.8,
+		"category": "Flasche Weiss"
+	},
+	{
+		"Name": "Rhett Butler (Fl.)",
+		"pictureName": "default.png",
+		"price": 17,
+		"category": "Flasche Rot"
+	},
+	{
+		"Name": "Rhett Butler (1/8)",
+		"pictureName": "default.png",
+		"price": 3.4,
+		"category": "Flasche Rot"
+	},
+	{
+		"Name": "Big John, Cuvee Reserve (Fl.)",
+		"pictureName": "default.png",
+		"price": 20,
+		"category": "Flasche Rot"
+	},
+	{
+		"Name": "Big John, Cuvee Reserve (1/8)",
+		"pictureName": "default.png",
+		"price": 3.9,
+		"category": "Flasche Rot"
+	},
+	{
+		"Name": "Trumer Pils (0.33l)",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Bier"
+	},
+	{
+		"Name": "Gösser Radler (0.33l)",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Bier"
+	},
+	{
+		"Name": "Fassbier 0.3",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Bier"
+	},
+	{
+		"Name": "Fassbier 0.5",
+		"pictureName": "default.png",
+		"price": 3.1,
+		"category": "Bier"
+	},
+	{
+		"Name": "Fluch des Pharao",
+		"pictureName": "default.png",
+		"price": 2,
+		"category": "Shots"
+	},
+	{
+		"Name": "Shot #2",
+		"pictureName": "default.png",
+		"price": 2,
+		"category": "Shots"
+	},
+	{
+		"Name": "Flasche Sekt + OSaft + Gläser",
+		"pictureName": "default.png",
+		"price": 18,
+		"category": "Sekt"
+	},
+	{
+		"Name": "Glas Sekt",
+		"pictureName": "default.png",
+		"price": 3,
+		"category": "Sekt"
+	},
+	{
+		"Name": "Glas Sekt-Orange",
+		"pictureName": "default.png",
+		"price": 3,
+		"category": "Sekt"
+	},
+	{
+		"Name": "Cola 0.33l",
+		"pictureName": "default.png",
+		"price": 2.2,
+		"category": "Anti"
+	},
+	{
+		"Name": "Almdudler 0.33l",
+		"pictureName": "default.png",
+		"price": 2.2,
+		"category": "Anti"
+	},
+	{
+		"Name": "Orangensaft 0.25l",
+		"pictureName": "default.png",
+		"price": 1.8,
+		"category": "Orange"
+    },
+    {
+		"Name": "Orangensaft 0.5l",
+		"pictureName": "default.png",
+		"price": 3,
+		"category": "Orange"
+	},
+	{
+		"Name": "Orangensaft/Still 0.25l",
+		"pictureName": "default.png",
+		"price": 1.5,
+		"category": "Orange"
+    },
+    {
+		"Name": "Orangensaft/Still 0.5l",
+		"pictureName": "default.png",
+		"price": 3,
+		"category": "Orange"
+	},
+	{
+		"Name": "Orangensaft/Prickelnd 0.25l",
+		"pictureName": "default.png",
+		"price": 1.5,
+		"category": "Orange"
+    },
+    {
+		"Name": "Orangensaft/Prickelnd 0.5l",
+		"pictureName": "default.png",
+		"price": 3,
+		"category": "Orange"
+	},
+	{
+		"Name": "Apfelsaft 0.25l",
+		"pictureName": "default.png",
+		"price": 1.8,
+		"category": "Apfel"
+    },
+    {
+		"Name": "Apfelsaft 0.5l",
+		"pictureName": "default.png",
+		"price": 3,
+		"category": "Apfel"
+	},
+	{
+		"Name": "Apfelsaft/Still 0.25l",
+		"pictureName": "default.png",
+		"price": 1.5,
+		"category": "Apfel"
+    },
+    {
+		"Name": "Apfelsaft/Still 0.5l",
+		"pictureName": "default.png",
+		"price": 3,
+		"category": "Apfel"
+	},
+	{
+		"Name": "Apfelsaft/Prickelnd 0.25l",
+		"pictureName": "default.png",
+		"price": 1.5,
+		"category": "Apfel"
+    },
+    {
+		"Name": "Apfelsaft/Prickelnd 0.5l",
+		"pictureName": "default.png",
+		"price": 3,
+		"category": "Apfel"
+	},
+	{
+		"Name": "Almdudler 0.25l",
+		"pictureName": "default.png",
+		"price": 1.5,
+		"category": "Anti"
+	},
+	{
+		"Name": "Almdudler 0.5l",
+		"pictureName": "default.png",
+		"price": 3,
+		"category": "Anti"
+	},
+	{
+		"Name": "Cola 0.25l",
+		"pictureName": "default.png",
+		"price": 1.5,
+		"category": "Anti"
+	},
+	{
+		"Name": "Cola 0.5l",
+		"pictureName": "default.png",
+		"price": 3,
+		"category": "Anti"
+	},
+	{
+		"Name": "Mineral 0.25l",
+		"pictureName": "default.png",
+		"price": 1.1,
+		"category": "Anti"
+	},
+	{
+		"Name": "Mineral 1l",
+		"pictureName": "default.png",
+		"price": 4,
+		"category": "Anti"
+	},
+	{
+		"Name": "Espresso",
+		"pictureName": "default.png",
+		"price": 2,
+		"category": "Kaffee"
+	},
+	{
+		"Name": "Melange",
+		"pictureName": "default.png",
+		"price": 2.3,
+		"category": "Kaffee"
+	},
+	{
+		"Name": "Weissweinglas",
+		"pictureName": "default.png",
+		"price": 0,
+		"category": "Glas"
+	},
+	{
+		"Name": "Rotweinglas",
+		"pictureName": "default.png",
+		"price": 0,
+		"category": "Glas"
+	},
+	{
+		"Name": "G'Spritzter-Glas",
+		"pictureName": "default.png",
+		"price": 0,
+		"category": "Glas"
+	},
+	{
+		"Name": "Halber-Liter-Glas",
+		"pictureName": "default.png",
+		"price": 0,
+		"category": "Glas"
+	},
+	{
+		"Name": "Bierglas klein",
+		"pictureName": "default.png",
+		"price": 0,
+		"category": "Glas"
+	},
+	{
+		"Name": "Bierglas gross",
+		"pictureName": "default.png",
+		"price": 0,
+		"category": "Glas"
+	},
+	{
+		"Name": "Kleines Anti-Alk-Glas",
+		"pictureName": "default.png",
+		"price": 0,
+		"category": "Glas"
+	}
+]

@@ -1,0 +1,38 @@
+[
+	{
+		"Name": "Broetchen",
+		"pictureName": "default.png",
+		"price": 1.8,
+		"category": "Brote"
+	},
+	{
+		"Name": "Schinkenstangerl",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Brote"
+	},
+	{
+		"Name": "Kaeseweckerl",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Brote"
+	},
+	{
+		"Name": "Crevetencocktail",
+		"pictureName": "default.png",
+		"price": 3.8,
+		"category": "Extra"
+	},
+	{
+		"Name": "MAKI",
+		"pictureName": "default.png",
+		"price": 4.2,
+		"category": "Extra"
+	},
+	{
+		"Name": "Sacherwürstl",
+		"pictureName": "default.png",
+		"price": 3.6,
+		"category": "Extra"
+	}
+]

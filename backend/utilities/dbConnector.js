@@ -1,4 +1,4 @@
-var logger = new (require('../logger'))('dbConnector')
+// var logger = new (require('../logger'))('dbConnector')
 const mariadb = require('mariadb')
 const moment = require('moment')
 const dbStructure = require('../dbStructure.json')
@@ -6,7 +6,7 @@ const dbStructure = require('../dbStructure.json')
 const credentials = require('./credentials.json')
 
     // var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    // logger.info(logPrefix, '[functionname()]')
+//     // logger.info(logPrefix, '[functionname()]')
 
 const pool = mariadb.createPool({
     host: 'localhost',
@@ -21,28 +21,28 @@ function initDatabase() {
     pool.getConnection().then(con => {
         var promises = []
         dbStructure.forEach(entry => {
-            logger.info('Table:', entry.table)
-            logger.info('Query:', entry.query)
+//             logger.info('Table:', entry.table)
+//             logger.info('Query:', entry.query)
             promises.push(con.query(entry.query))
         })
         Promise.all(promises).then(() => {
             logger.info('Database successfully initialized')
         }).catch(err => {
-            logger.err(err)
+//             logger.err(err)
         })
     }).catch(err => {
-        logger.error(err)
+//         logger.error(err)
     })
 }
 
 function getItems(request, type) {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.info(logPrefix, '[getItems()]')
+//     logger.info(logPrefix, '[getItems()]')
     return new Promise((resolve, reject) => {
         var query = 'select * from ' + type + ';'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
-            logger.info(logPrefix, '[Query] ' + query)
+//             logger.debug(logPrefix, 'Connection established')
+//             logger.info(logPrefix, '[Query] ' + query)
             con.query(query).then(data => {
                 con.end()
                 resolve(data)
@@ -66,7 +66,7 @@ function addItems(request, type) {
     return new Promise((resolve, reject) => {
         var query = 'insert into ' + type + ' (Name, pictureName, category, depleted, price) values (?, ?, ?, ?, ?);'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
+//             logger.debug(logPrefix, 'Connection established')
             var promises = []
             request.body.forEach(item => {
                 logger.info(logPrefix, '[Query]   ' + query)
@@ -96,7 +96,7 @@ function addTables(request) {
     return new Promise((resolve, reject) => {
         var query = 'insert into Tisch (Number) values (?);'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
+//             logger.debug(logPrefix, 'Connection established')
             var promises = []
             request.body.forEach(table => {
                 logger.info(logPrefix, '[Query]   ' + query)
@@ -122,12 +122,12 @@ function addTables(request) {
 
 function getTables(request) {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.info(logPrefix, '[getTable()]')
+//     logger.info(logPrefix, '[getTable()]')
     return new Promise((resolve, reject) => {
         var query = 'select * from Tisch;'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
-            logger.info(logPrefix, '[Query] ' + query)
+//             logger.debug(logPrefix, 'Connection established')
+//             logger.info(logPrefix, '[Query] ' + query)
             con.query(query).then(data => {
                 con.end()
                 resolve(data)
@@ -147,12 +147,12 @@ function getTables(request) {
 
 function getItemsByCategory(request, type, category) {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.info(logPrefix, '[getItemsByCategory()]')
+//     logger.info(logPrefix, '[getItemsByCategory()]')
     return new Promise((resolve, reject) => {
         var query = 'select * from ' + type + ' where category="' + category + '" and depleted=false;'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
-            logger.info(logPrefix, '[Query] ' + query)
+//             logger.debug(logPrefix, 'Connection established')
+//             logger.info(logPrefix, '[Query] ' + query)
             con.query(query).then(data => {
                 con.end()
                 resolve(data)
@@ -172,12 +172,12 @@ function getItemsByCategory(request, type, category) {
 
 function getCategories(request, type) {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.info(logPrefix, '[getCategories()]')
+//     logger.info(logPrefix, '[getCategories()]')
     return new Promise((resolve, reject) => {
         var query = 'select distinct category from ' + type + ' where depleted=false;'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
-            logger.info(logPrefix, '[Query] ' + query)
+//             logger.debug(logPrefix, 'Connection established')
+//             logger.info(logPrefix, '[Query] ' + query)
             con.query(query).then(data => {
                 con.end()
                 resolve(data)
@@ -204,7 +204,7 @@ function placeOrder(request) {
         var body = request.body
         var insertOrderOptions = [body.idTisch, body.commentEssen, body.commentTrinken, body.Kellner]
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
+//             logger.debug(logPrefix, 'Connection established')
             logger.info(logPrefix, '[Query]   ' + insertOrderQuery)
             logger.info(logPrefix, '[Options] ' + '[' + insertOrderOptions.join(' | ') + ']')
             con.query(insertOrderQuery, insertOrderOptions).then(data => {
@@ -264,7 +264,7 @@ function postCalcOrder (request) {
         var body = request.body
         var insertOrderOptions = [0, 'Buffet-Bestellung', 'Buffet-Bestellung', 'Buffet']
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
+//             logger.debug(logPrefix, 'Connection established')
             logger.info(logPrefix, '[Query]   ' + insertOrderQuery)
             logger.info(logPrefix, '[Options] ' + '[' + insertOrderOptions.join(' | ') + ']')
             con.query(insertOrderQuery, insertOrderOptions).then(data => {
@@ -317,7 +317,7 @@ function postCalcOrder (request) {
 
 function getNotFinishedOrders(request, type) {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.info(logPrefix, '[getNotFinishedOrders()]')
+//     logger.info(logPrefix, '[getNotFinishedOrders()]')
     return new Promise((resolve, reject) => {
         // select name, Stück, idBestellung, Number 
         //      from Bestellung 
@@ -340,8 +340,8 @@ function getNotFinishedOrders(request, type) {
             + 'and idTisch = Tisch_idTisch '
             + 'order by idBestellung;'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
-            logger.info(logPrefix, '[Query] ' + query)
+//             logger.debug(logPrefix, 'Connection established')
+//             logger.info(logPrefix, '[Query] ' + query)
             con.query(query).then(data => {
                 con.end()
                 resolve(data)
@@ -367,7 +367,7 @@ function updateOrder(request, id,  type, flag) {
             + 'time' + flag.name + '="' + now + '" '
             + 'where Bestellung_idBestellung=' + id + ';'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
+//             logger.debug(logPrefix, 'Connection established')
             logger.info(logPrefix, '[Query] ' + query)
             con.query(query).then(data => {
                 con.end()
@@ -391,7 +391,7 @@ function updateDepletion(request, id, type, value) {
     return new Promise((resolve, reject) => {
         var query = 'update ' + type + ' set depleted=' + value + ', timeDepleted="' + now + '" where id' + type + '=' + id + ';'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
+//             logger.debug(logPrefix, 'Connection established')
             logger.info(logPrefix, '[Query] ' + query)
             con.query(query).then(data => {
                 con.end()
@@ -410,12 +410,12 @@ function updateDepletion(request, id, type, value) {
 
 function getFinished(request, type) {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.info(logPrefix, '[getFinished()]')
+//     logger.info(logPrefix, '[getFinished()]')
     return new Promise((resolve, reject) => {
         var query = 'select distinct idBestellung, Number from Bestellung join Bestellung' + type + ' join Tisch where Tisch_idTisch=idTisch and idBestellung=Bestellung_idBestellung and finished=true and (served=false or not Stueck=cashed);'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
-            logger.info(logPrefix, '[Query] ' + query)
+//             logger.debug(logPrefix, 'Connection established')
+//             logger.info(logPrefix, '[Query] ' + query)
             con.query(query).then(data => {
                 con.end()
                 resolve(data)
@@ -433,12 +433,12 @@ function getFinished(request, type) {
 
 function getOrder(request, id, type) {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.info(logPrefix, '[getOrder()]')
+//     logger.info(logPrefix, '[getOrder()]')
     return new Promise((resolve, reject) => {
         var query = 'select * from Bestellung join Bestellung' + type + ' join ' + type + ' join Tisch where idBestellung=' + id + ' and idBestellung=Bestellung_idBestellung and idTisch=Tisch_idTisch and id' + type + '=' + type + '_id' + type + ';'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
-            logger.info(logPrefix, '[Query] ' + query)
+//             logger.debug(logPrefix, 'Connection established')
+//             logger.info(logPrefix, '[Query] ' + query)
             con.query(query).then(data => {
                 con.end()
                 resolve(data)
@@ -465,7 +465,7 @@ function updateCashed (request, idOrder, type, idItem, value) {
             + 'where Bestellung_idBestellung=' + idOrder + ' '
             + 'and ' + type + '_id' + type + '=' + idItem + ';'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
+//             logger.debug(logPrefix, 'Connection established')
             logger.info(logPrefix, '[Query] ' + query)
             con.query(query).then(data => {
                 con.end()
@@ -484,7 +484,7 @@ function updateCashed (request, idOrder, type, idItem, value) {
 
 function getNotServedTables (request, type) {
     var logPrefix = '[' + [request.method, request.url, type].join(' ') + ']'
-    logger.info(logPrefix, '[getNotServedTables()]')
+//     logger.info(logPrefix, '[getNotServedTables()]')
     return new Promise((resolve, reject) => {
         var query = 'select distinct idTisch, Number '
             + 'from bestellung '
@@ -494,8 +494,8 @@ function getNotServedTables (request, type) {
             + 'and Tisch_idTisch=idTisch '
             + 'and served=false AND finished=true;'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
-            logger.info(logPrefix, '[Query] ' + query)
+//             logger.debug(logPrefix, 'Connection established')
+//             logger.info(logPrefix, '[Query] ' + query)
             con.query(query).then(data => {
                 con.end()
                 resolve(data)
@@ -513,7 +513,7 @@ function getNotServedTables (request, type) {
 
 function getNotCashedTables (request, type) {
     var logPrefix = '[' + [request.method, request.url, type].join(' ') + ']'
-    logger.info(logPrefix, '[getNotCashedTables()]')
+//     logger.info(logPrefix, '[getNotCashedTables()]')
     return new Promise((resolve, reject) => {
         var query = 'select distinct idTisch, Number '
             + 'from bestellung '
@@ -524,8 +524,8 @@ function getNotCashedTables (request, type) {
             + 'and served=true '
             + 'and not cashed=Stueck;'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
-            logger.info(logPrefix, '[Query] ' + query)
+//             logger.debug(logPrefix, 'Connection established')
+//             logger.info(logPrefix, '[Query] ' + query)
             con.query(query).then(data => {
                 con.end()
                 resolve(data)
@@ -543,7 +543,7 @@ function getNotCashedTables (request, type) {
 
 function getNotServedItemsByTable (request, type, tableId) {
     var logPrefix = '[' + [request.method, request.url, type, tableId].join(' ') + ']'
-    logger.info(logPrefix, '[getNotServedItemsByTable()]')
+//     logger.info(logPrefix, '[getNotServedItemsByTable()]')
     return new Promise((resolve, reject) => {
         var orderType = 'bestellung' + type
         var type_idtype = type + '_id' + type
@@ -558,8 +558,8 @@ function getNotServedItemsByTable (request, type, tableId) {
             + 'AND Tisch_idTisch=' + tableId + ' '
             + 'ORDER BY idBestellung ASC;'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
-            logger.info(logPrefix, '[Query] ' + query)
+//             logger.debug(logPrefix, 'Connection established')
+//             logger.info(logPrefix, '[Query] ' + query)
             con.query(query).then(data => {
                 con.end()
                 resolve(data)
@@ -578,7 +578,7 @@ function getNotServedItemsByTable (request, type, tableId) {
 
 function getNotCashedItemsByTable (request, type, tableId) {
     var logPrefix = '[' + [request.method, request.url, type, tableId].join(' ') + ']'
-    logger.info(logPrefix, '[getNotCashedItemsByTable()]')
+//     logger.info(logPrefix, '[getNotCashedItemsByTable()]')
     return new Promise((resolve, reject) => {
         var orderType = 'bestellung' + type
         var type_idtype = type + '_id' + type
@@ -593,8 +593,8 @@ function getNotCashedItemsByTable (request, type, tableId) {
         + 'AND Tisch_idTisch=' + tableId + ' '
         + 'ORDER BY idBestellung ASC;'
         pool.getConnection().then(con => {
-            logger.debug(logPrefix, 'Connection established')
-            logger.info(logPrefix, '[Query] ' + query)
+//             logger.debug(logPrefix, 'Connection established')
+//             logger.info(logPrefix, '[Query] ' + query)
             con.query(query).then(data => {
                 con.end()
                 resolve(data)
