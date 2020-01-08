@@ -20,10 +20,10 @@ var reversedTypes = {
 
 router.get('/getFinished/:type', (request, response) => {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.info(logPrefix)
+//     logger.info(logPrefix)
     var types = productType[request.params.type]
     if (types === undefined) {
-        logger.warn(logPrefix, 'Unknown type: ' + request.params.type)
+//         logger.warn(logPrefix, 'Unknown type: ' + request.params.type)
         response.status(404).send('Unknown type: ' + request.params.type)
     } else {
         var promises = []
@@ -48,10 +48,10 @@ router.get('/getFinished/:type', (request, response) => {
 
 router.get('/getNotServedTables/:type', (request, response) => {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.info(logPrefix)
+//     logger.info(logPrefix)
     var types = productType[request.params.type]
     if (types === undefined) {
-        logger.warn(logPrefix, 'Unknown type: ' + request.params.type)
+//         logger.warn(logPrefix, 'Unknown type: ' + request.params.type)
         response.status(404).send('Unknown type: ' + request.params.type)
     } else {
         var promises = []
@@ -75,10 +75,10 @@ router.get('/getNotServedTables/:type', (request, response) => {
 })
 router.get('/getNotCashedTables/:type', (request, response) => {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.info(logPrefix)
+//     logger.info(logPrefix)
     var types = productType[request.params.type]
     if (types === undefined) {
-        logger.warn(logPrefix, 'Unknown type: ' + request.params.type)
+//         logger.warn(logPrefix, 'Unknown type: ' + request.params.type)
         response.status(404).send('Unknown type: ' + request.params.type)
     } else {
         var promises = []
@@ -102,14 +102,14 @@ router.get('/getNotCashedTables/:type', (request, response) => {
 })
 router.get('/getNotServedItemsByTable/:type/:tableId', (request, response) => {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.info(logPrefix)
+//     logger.info(logPrefix)
     var types = productType[request.params.type]
     var id = Number(request.params.tableId)
     if (!Number.isInteger(id)) {
-        logger.warn(logPrefix, 'TableId is not valid: ' + id)
+//         logger.warn(logPrefix, 'TableId is not valid: ' + id)
         response.status(404).send('TableId is not valid: ' + id)
     } else if (types === undefined) {
-        logger.warn(logPrefix, 'Unknown type: ' + request.params.type)
+//         logger.warn(logPrefix, 'Unknown type: ' + request.params.type)
         response.status(404).send('Unknown type: ' + request.params.type)
     } else {
         var promises = []
@@ -133,14 +133,14 @@ router.get('/getNotServedItemsByTable/:type/:tableId', (request, response) => {
 })
 router.get('/getNotCashedItemsByTable/:type/:tableId', (request, response) => {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.info(logPrefix)
+//     logger.info(logPrefix)
     var types = productType[request.params.type]
     var id = Number(request.params.tableId)
     if (!Number.isInteger(id)) {
-        logger.warn(logPrefix, 'TableId is not valid: ' + id)
+//         logger.warn(logPrefix, 'TableId is not valid: ' + id)
         response.status(404).send('TableId is not valid: ' + id)
     } else if (types === undefined) {
-        logger.warn(logPrefix, 'Unknown type: ' + request.params.type)
+//         logger.warn(logPrefix, 'Unknown type: ' + request.params.type)
         response.status(404).send('Unknown type: ' + request.params.type)
     } else {
         var promises = []
@@ -165,12 +165,12 @@ router.get('/getNotCashedItemsByTable/:type/:tableId', (request, response) => {
 
 router.get('/getOrder/:id/:type', (request, response) => {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.info(logPrefix)
+//     logger.info(logPrefix)
     var id = request.params.id
     var types = productType[request.params.type]
     if (id !== 'undefined') {
         if (types === undefined) {
-            logger.warn(logPrefix, 'Unknown type: ' + request.params.type)
+//             logger.warn(logPrefix, 'Unknown type: ' + request.params.type)
             response.status(404).send('Unknown type: ' + request.params.type)
         } else {
             var promises = []

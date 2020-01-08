@@ -1,4 +1,4 @@
-// var logger = new (require('../logger'))('dbConnector')
+var logger = new (require('../logger'))('dbConnector')
 const mariadb = require('mariadb')
 const moment = require('moment')
 const dbStructure = require('../dbStructure.json')

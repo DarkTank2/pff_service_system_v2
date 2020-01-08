@@ -10,7 +10,7 @@ var utls = require('../utilities')
 
 router.get('/items', (request, response) => {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.debug(logPrefix)
+//     logger.debug(logPrefix)
     var promises = []
     promises.push(utls.getItems(request, 'Essen').then(data => {
         return {food: data}

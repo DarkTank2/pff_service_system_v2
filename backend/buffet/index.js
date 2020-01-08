@@ -20,7 +20,7 @@ var utls = require('../utilities')
 
 router.get('/getItems/:type', (request, response) => {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.debug(logPrefix)
+//     logger.debug(logPrefix)
     var type = request.params.type
     if(type === 'food') {
         utls.getItems(request, 'Essen').then(data => {
@@ -44,7 +44,7 @@ router.get('/getItems/:type', (request, response) => {
 
 router.get('/getNotFinished/:type', (request, response) => {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.info(logPrefix)
+//     logger.info(logPrefix)
     var type = request.params.type
     if (type === 'food') {
         utls.getNotFinishedOrders(request, 'Essen').then(data => {
