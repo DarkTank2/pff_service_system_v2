@@ -20,7 +20,7 @@ var utls = require('../utilities')
 
 router.get('/getItems/:type/:category', (request, response) => {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.debug(logPrefix)
+//     logger.debug(logPrefix)
     var type = request.params.type
     var category = request.params.category
     if(type === 'food') {
@@ -45,7 +45,7 @@ router.get('/getItems/:type/:category', (request, response) => {
 
 router.get('/getTables', (request, response) => {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.debug(logPrefix)
+//     logger.debug(logPrefix)
     utls.getTables(request).then(data => {
         response.status(200).send(data)
     })
@@ -56,7 +56,7 @@ router.get('/getTables', (request, response) => {
 
 router.get('/getCategories/:type', (request, response) => {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
-    logger.debug(logPrefix)
+//     logger.debug(logPrefix)
     var type = request.params.type
     if (type === 'food') {
         utls.getCategories(request, 'Essen').then(data => {

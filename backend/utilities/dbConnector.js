@@ -487,9 +487,9 @@ function getNotServedTables (request, type) {
 //     logger.info(logPrefix, '[getNotServedTables()]')
     return new Promise((resolve, reject) => {
         var query = 'select distinct idTisch, Number '
-            + 'from bestellung '
-            + 'join tisch '
-            + 'join bestellung' + type + ' '
+            + 'from Bestellung '
+            + 'join Tisch '
+            + 'join Bestellung' + type + ' '
             + 'where Bestellung_idBestellung=idBestellung '
             + 'and Tisch_idTisch=idTisch '
             + 'and served=false AND finished=true;'
@@ -516,9 +516,9 @@ function getNotCashedTables (request, type) {
 //     logger.info(logPrefix, '[getNotCashedTables()]')
     return new Promise((resolve, reject) => {
         var query = 'select distinct idTisch, Number '
-            + 'from bestellung '
-            + 'join tisch '
-            + 'join bestellung' + type + ' '
+            + 'from Bestellung '
+            + 'join Tisch '
+            + 'join Bestellung' + type + ' '
             + 'where Bestellung_idBestellung=idBestellung '
             + 'and Tisch_idTisch=idTisch '
             + 'and served=true '
@@ -545,11 +545,11 @@ function getNotServedItemsByTable (request, type, tableId) {
     var logPrefix = '[' + [request.method, request.url, type, tableId].join(' ') + ']'
 //     logger.info(logPrefix, '[getNotServedItemsByTable()]')
     return new Promise((resolve, reject) => {
-        var orderType = 'bestellung' + type
+        var orderType = 'Bestellung' + type
         var type_idtype = type + '_id' + type
         var idType = 'id' + type
         var query = 'SELECT idBestellung, Kellner, Stueck, served, cashed, NAME, price, ' + idType + ' as idItem '
-            + 'FROM bestellung '
+            + 'FROM Bestellung '
             + 'JOIN ' + orderType + ' '
             + 'JOIN ' + type + ' '
             + 'WHERE served=FALSE AND finished=true '
@@ -580,11 +580,11 @@ function getNotCashedItemsByTable (request, type, tableId) {
     var logPrefix = '[' + [request.method, request.url, type, tableId].join(' ') + ']'
 //     logger.info(logPrefix, '[getNotCashedItemsByTable()]')
     return new Promise((resolve, reject) => {
-        var orderType = 'bestellung' + type
+        var orderType = 'Bestellung' + type
         var type_idtype = type + '_id' + type
         var idType = 'id' + type
         var query = 'SELECT idBestellung, Kellner, Stueck, served, cashed, NAME, price, ' + idType + ' as idItem '
-        + 'FROM bestellung '
+        + 'FROM Bestellung '
         + 'JOIN ' + orderType + ' '
         + 'JOIN ' + type + ' '
         + 'WHERE served=TRUE AND NOT cashed=Stueck '
