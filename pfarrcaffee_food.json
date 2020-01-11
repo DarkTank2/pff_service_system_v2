@@ -1,0 +1,56 @@
+[
+    {
+		"Name": "Schmalzbrot",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Brote"
+	},
+	{
+		"Name": "Kümmelbratenbrot",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Brote"
+	},
+	{
+		"Name": "Liptauerbrot",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Brote"
+	},
+	{
+		"Name": "Frühlingsaufstrichbrot",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Brote"
+	},
+	{
+		"Name": "Torte",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Kuchen"
+	},
+	{
+		"Name": "Kuchen",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Kuchen"
+	},
+	{
+		"Name": "Tiramisu",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Kuchen"
+	},
+	{
+		"Name": "Brownies",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Kuchen"
+	},
+	{
+		"Name": "Schokokuchen",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Kuchen"
+	}
+]

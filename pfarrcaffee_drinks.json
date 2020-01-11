@@ -1,0 +1,116 @@
+[
+    {
+		"Name": "O-Saft 1/4",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "O&A"
+	},
+	{
+		"Name": "O-Saft/Still 1/4",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "O&A"
+	},
+	{
+		"Name": "O-Saft/Prickelnd 1/4",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "O&A"
+	},
+	{
+		"Name": "A-Saft 1/4",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "O&A"
+	},
+	{
+		"Name": "A-Saft/Still 1/4",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "O&A"
+	},
+	{
+		"Name": "A-Saft/Prickelnd 1/4",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "O&A"
+	},
+	{
+		"Name": "Sekt Flasche",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Sekt"
+	},
+	{
+		"Name": "Sektglas",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Sekt"
+	},
+	{
+		"Name": "Weißwein Flasche",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Weiss"
+	},
+	{
+		"Name": "Weißwein 1/8",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Weiss"
+	},
+	{
+		"Name": "Rotweinflasche",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Rot"
+	},
+	{
+		"Name": "Rotwein 1/8",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Rot"
+	},
+	{
+		"Name": "Spritzer",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Spritzer"
+    },
+	{
+		"Name": "Wasserkaraffe",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Glas"
+	},
+	{
+		"Name": "Spritzerglas",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Glas"
+	},
+	{
+		"Name": "Wasserglas",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Glas"
+	},
+	{
+		"Name": "Rotweinglas",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Glas"
+	},
+	{
+		"Name": "Weissweinglas",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Glas"
+	},
+	{
+		"Name": "Sektglas",
+		"pictureName": "default.png",
+		"price": 2.5,
+		"category": "Glas"
+	}
+]
