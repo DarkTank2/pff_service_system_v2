@@ -105,6 +105,13 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-divider></v-divider>
+        <v-card-actions>
+            <v-btn @click="tabs = 0" block>
+                <v-icon left>more_vert</v-icon>
+                Allgemein 
+            </v-btn>
+        </v-card-actions>
     </v-card>
 </template>
 <script>
