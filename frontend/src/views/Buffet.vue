@@ -1,27 +1,29 @@
 <template>
     <v-row no-gutters>
-        <v-col :cols="drinks.length > 0 ? '6' : '12'" v-if="food.length > 0">
+        <v-col :cols="filterDrinks.length > 0 ? '6' : '12'" v-if="filterFood.length > 0">
             <v-container fluid>
                 <v-row>
                     <BOrder
-                    v-for="(order, index) in food"
+                    v-for="(order, index) in filterFood"
                     :key="'order/food/' + index"
                     :order="order"
                     type="food"
-                    :lonely="drinks.length === 0"
+                    :lonely="filterDrinks.length === 0"
+                    v-on:finalize="finalizeFood(index)"
                     />
                 </v-row>
             </v-container>
         </v-col>
-        <v-col :cols="food.length > 0 ? '6' : '12'" v-if="drinks.length > 0">
+        <v-col :cols="filterFood.length > 0 ? '6' : '12'" v-if="filterDrinks.length > 0">
             <v-container fluid>
                 <v-row>
                     <BOrder
-                    v-for="(order, index) in drinks"
+                    v-for="(order, index) in filterDrinks"
                     :key="'order/drinks/' + index"
                     :order="order"
                     type="drinks"
-                    :lonely="food.length === 0"
+                    :lonely="filterFood.length === 0"
+                    v-on:finalize="finalizeDrinks(index)"
                     />
                 </v-row>
             </v-container>
@@ -79,6 +81,9 @@ export default {
         updateFood: function () {
             dbCalls.getNotFinished('food').then(data => {
                 this.food = this.clusterOrder(data, 'food')
+                this.food.forEach(order => {
+                    order.visible = true
+                })
                 this.timerFood = setTimeout(() => {this.updateFood()}, 5000)
             }).catch(err => {
                 console.log(err)
@@ -87,6 +92,9 @@ export default {
         updateDrinks: function () {
             dbCalls.getNotFinished('drinks').then(data => {
                 this.drinks = this.clusterOrder(data, 'drinks')
+                this.drinks.forEach(order => {
+                    order.visible = true
+                })
                 this.timerDrinks = setTimeout(() => {this.updateDrinks()}, 5000)
             }).catch(err => {
                 console.log(err)
@@ -118,6 +126,20 @@ export default {
                 }
             })
             return clusters
+        },
+        finalizeFood: function (index) {
+            this.food[index].visible = false
+        },
+        finalizeDrinks: function (index) {
+            this.drinks[index].visible = false
+        }
+    },
+    computed: {
+        filterFood: function () {
+            return this.food.filter(order => order.visible === true)
+        },
+        filterDrinks: function () {
+            return this.drinks.filter(order => order.visible === true)
         }
     },
     watch: {

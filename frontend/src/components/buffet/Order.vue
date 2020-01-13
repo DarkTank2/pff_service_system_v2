@@ -52,10 +52,12 @@ export default {
     },
     methods: {
         finalize: function () {
-            dbCalls.updateFinished(this.type, this.order.idBestellung, true).then().catch(err => {
+            dbCalls.updateFinished(this.type, this.order.idBestellung, true).then(() => {
+                EventBus.$emit('update-orders')
+            }).catch(err => {
                 console.log(err)
             })
-            EventBus.$emit('update-orders')
+            this.$emit('finalize')
         }
     },
     watch: {
