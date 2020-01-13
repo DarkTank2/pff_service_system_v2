@@ -80,14 +80,15 @@ export default {
             var promises = []
             if (this.order.food) {
                 promises.push(dbCalls.serveOrder('food', this.order.idBestellung, true))
-                promises.push(dbCalls.cashOrder('food', this.order.idBestellung))
+                // promises.push(dbCalls.cashOrder('food', this.order.idBestellung))
             }
             if (this.order.drinks) {
                 promises.push(dbCalls.serveOrder('drinks', this.order.idBestellung, true))
-                promises.push(dbCalls.cashOrder('drinks', this.order.idBestellung))
+                // promises.push(dbCalls.cashOrder('drinks', this.order.idBestellung))
             }
             Promise.all(promises).then(data => {
                 EventBus.$emit('refresh')
+                this.$router.push({name: 'ServantCash', params: {tableId: this.$route.params.tableId}})
             }).catch(err => {
                 console.log(err)
             })
