@@ -85,7 +85,7 @@ export default {
           data.forEach(table => {
               table.name = 'Tisch-Nr.: ' + table.Number
           })
-          this.tables = data
+          this.tables = data.filter(table => table.Number !== 999) // filter out buffet-dummy-table
           EventBus.$emit('w-receive-tables', this.tables)
       }).catch(err => {
           console.log(err)
