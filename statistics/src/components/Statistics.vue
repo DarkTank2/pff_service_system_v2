@@ -9,6 +9,12 @@
                 >
                 </v-select>
             </v-col>
+            <v-col cols="12" sm="4">
+                <v-combobox v-model="tableSelection" :items="tables" label="Tischauswahl" multiple chips clearable @change="update"></v-combobox>
+            </v-col>
+            <v-col cols="12" sm="4">
+                <v-combobox v-model="itemTypeSelection" :items="itemTypes" label="Typauswahl" multiple chips clearable @change="update"></v-combobox>
+            </v-col>
             <v-col cols="12" sm="8">
                 <v-slider
                 min="5"
@@ -36,30 +42,40 @@
                 <barChart v-if="typeSelection === 'Anzahl über Items'" :chartData="chartData"/>
             </v-col>
         </v-row>
+        <v-row>
+            <v-col cols="12" sm="12">
+                <overall :items="itemFilter" :orders="orderFilter"/>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 <script>
 import dbCalls from '../utilities/backendCalls'
 import lineChart from './charts/lineChart.vue'
 import barChart from './charts/barChart.vue'
+import overall from './overall'
 import moment from 'moment'
 export default {
     name: 'Statistics',
     props: [],
     components: {
         lineChart,
-        barChart
+        barChart,
+        overall
     },
     data () {
         return {
             orders: [],
             tables: [],
+            tableSelection: [],
             items: [],
             typeSelections: [
                 'Anzahl Bestellung über Zeit',
                 'Anzahl über Items',
                 'Anzahl Items über Zeit'
             ],
+            itemTypes: ['food', 'drinks'],
+            itemTypeSelection: [],
             typeSelection: 'Anzahl Bestellung über Zeit',
             aggregationTime: 960,
             startTimestamp: '',
@@ -75,30 +91,23 @@ export default {
     mounted: function () {
         dbCalls.getTables().then(data => {
             this.tables = data
+            this.tables.forEach(table => {
+                table.text = table.Number === 999 ? 'Buffet' : ('#' + table.Number)
+            })
+            this.tableSelection = [...this.tables]
             this.update()
         }).catch(() => {
             // console.log(err)
         })
         dbCalls.getAllItems().then(data => {
             this.items = data
+            this.itemTypeSelection = [...this.itemTypes]
             this.update()
         }).catch(() => {
             // console.log(err)
         })
         dbCalls.getTimeseries().then(data => {
             this.orders = this.sortOrders(data[0], data[1])
-            var start = ''
-            var end = ''
-            this.orders.forEach(order => {
-                if (order && start === '') start = order.timePlaced
-                if (order) end = order.timePlaced
-            })
-            start = moment(start).seconds(0)
-            end = moment(end).seconds(0).add(1, 'minutes')
-            
-            this.startTimestamp = start
-            this.endTimestamp = end
-            this.maxDuration = moment.duration(end.diff(start)).asMinutes()
             this.update()
         }).catch(() => {
             // console.log(err)
@@ -158,8 +167,9 @@ export default {
             this.timestamps.forEach((ts, index) => {
                 if (index === 0) return
                 if (set.data[index - 1] === undefined) set.data[index - 1] = 0
-                this.orders.forEach(order => {
+                this.orders.filter(order => this.tableSelection.some(table => table.Number === order.tableNumber)).forEach(order => {
                     if (order === undefined) return
+                    // if (this.tableSelection.filter(table => table.Number === order.tableNumber).length === 0) return
                     if (moment(order.timePlaced).isBetween(this.timestamps[index - 1], ts)) set.data[index - 1]++
                 })
             })
@@ -176,9 +186,10 @@ export default {
                 data: []
             }
 
-            this.items.forEach((item, index) => {
+            this.items.filter(item => this.itemTypeSelection.includes(item.type)).forEach((item, index) => {
                 set.data[index] = 0
-                this.orders.forEach(order => {
+                this.orders.filter(order => this.tableSelection.some(table => table.Number === order.tableNumber)).forEach(order => {
+                    // if (this.tableSelection.filter(table => table.Number === order.tableNumber).length === 0) return
                     if (order) {
                         order.items.forEach(OI => {
                             if (OI.Name === item.Name) set.data[index] += OI.Stueck
@@ -188,7 +199,7 @@ export default {
             })
 
             return {
-                labels: [...this.items.map(item => item.Name)],
+                labels: [...this.items.filter(item => this.itemTypeSelection.includes(item.type)).map(item => item.Name)],
                 datasets: [set]
             }
         },
@@ -196,7 +207,7 @@ export default {
             var sets = []
             this.timestamps.forEach((ts, index) => {
                 if (index === 0) return
-                this.items.forEach((item, i) => {
+                this.items.filter(item => this.itemTypeSelection.includes(item.type)).forEach((item, i) => {
                     // create set for each item so that every item can be displayed parallel
                     if (sets[i] === undefined) sets[i] = {
                         label: item.Name,
@@ -208,8 +219,9 @@ export default {
                     var set = sets[i]
                     // if the set is new, initialize its data with 0
                     if (set.data[index - 1] === undefined) set.data[index - 1] = 0
-                    this.orders.forEach(order => {
+                    this.orders.filter(order => this.tableSelection.some(table => table.Number === order.tableNumber)).forEach(order => {
                         if (order === undefined) return
+                        // if (this.tableSelection.filter(table => table.Number === order.tableNumber).length === 0) return
                         // check if the order is in the current timeframe, defined by the timestamp-array
                         if (moment(order.timePlaced).isBetween(this.timestamps[index - 1], ts)) {
                             order.items.forEach(OI => {
@@ -227,6 +239,20 @@ export default {
             }
         },
         calculateTimestamps: function () {
+            var start = ''
+            var end = ''
+            this.orders.forEach(order => {
+                if (this.tableSelection.filter(table => table.Number === order.tableNumber).length === 0) return
+                if (order && start === '') start = order.timePlaced
+                if (order) end = order.timePlaced
+            })
+            start = moment(start).seconds(0)
+            end = moment(end).seconds(0).add(1, 'minutes')
+            
+            this.startTimestamp = start
+            this.endTimestamp = end
+            this.maxDuration = moment.duration(end.diff(start)).asMinutes()
+
             var cur = moment(this.startTimestamp)
             var timestamps = []
             timestamps.push(cur.format())
@@ -257,7 +283,12 @@ export default {
         }
     },
     computed: {
-        
+        orderFilter: function () {
+            return this.orders.filter(order => this.tableSelection.some(table => table.Number === order.tableNumber))
+        },
+        itemFilter: function () {
+            return this.items.filter(item => this.itemTypeSelection.includes(item.type))
+        }
     }
 }
 </script>

@@ -640,7 +640,7 @@ function getTimeseries (request) {
 function getAllItems (request) {
     var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
     return new Promise((resolve, reject) => {
-        var queryDrinks = 'SELECT Name, price FROM Trinken;'
+        var queryDrinks = 'SELECT Name, price FROM Trinken where not price=0;'
         var queryFood = 'SELECT Name, price FROM Essen;'
         pool.getConnection().then(con => {
             var promises = []
