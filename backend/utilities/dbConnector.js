@@ -648,6 +648,12 @@ function getAllItems (request) {
             promises.push(con.query(queryFood))
             Promise.all(promises).then(data => {
                 con.end()
+                data[0].forEach(drink => {
+                    drink.type = 'drinks'
+                })
+                data[1].forEach(food => {
+                    food.type = 'food'
+                })
                 var tmp = [...data[0], ...data[1]]
                 fs.writeFileSync('./items.json', JSON.stringify(tmp))
                 resolve(tmp)
