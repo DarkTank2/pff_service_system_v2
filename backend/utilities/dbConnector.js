@@ -2,6 +2,7 @@ var logger = new (require('../logger'))('dbConnector')
 const mariadb = require('mariadb')
 const moment = require('moment')
 const dbStructure = require('../dbStructure.json')
+const fs = require('fs')
 
 const credentials = require('./credentials.json')
 
@@ -522,7 +523,7 @@ function getNotCashedTables (request, type) {
             + 'where Bestellung_idBestellung=idBestellung '
             + 'and Tisch_idTisch=idTisch '
             + 'and served=true '
-            + 'and not cashed=Stueck;'
+            + 'and cashed < Stueck;'
         pool.getConnection().then(con => {
 //             logger.debug(logPrefix, 'Connection established')
 //             logger.info(logPrefix, '[Query] ' + query)
@@ -587,7 +588,7 @@ function getNotCashedItemsByTable (request, type, tableId) {
         + 'FROM Bestellung '
         + 'JOIN ' + orderType + ' '
         + 'JOIN ' + type + ' '
-        + 'WHERE served=TRUE AND NOT cashed=Stueck '
+        + 'WHERE served=TRUE AND cashed < Stueck '
         + 'AND Bestellung_idBestellung=idBestellung '
         + 'AND ' + type_idtype + '=' + idType + ' '
         + 'AND Tisch_idTisch=' + tableId + ' '
@@ -611,6 +612,58 @@ function getNotCashedItemsByTable (request, type, tableId) {
 
 }
 
+function getTimeseries (request) {
+    var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
+    return new Promise((resolve, reject) => {
+        var queryDrinks = 'SELECT idBestellung, Number, Kellner, Name, price, Stueck, timePlaced, timeFinished, timeServed, timeCashed FROM BestellungTrinken JOIN Bestellung JOIN Trinken JOIN Tisch WHERE idBestellung=Bestellung_idBestellung AND idTisch=Tisch_idTisch AND idTrinken=Trinken_idTrinken ORDER BY idBestellung ASC;'
+        var queryFood = 'SELECT idBestellung, Number, Kellner, Name, price, Stueck, timePlaced, timeFinished, timeServed, timeCashed FROM BestellungEssen JOIN Bestellung JOIN Essen JOIN Tisch WHERE idBestellung=Bestellung_idBestellung AND idTisch=Tisch_idTisch AND idEssen=Essen_idEssen ORDER BY idBestellung ASC;'
+        pool.getConnection().then(con => {
+            var promises = []
+            promises.push(con.query(queryDrinks))
+            promises.push(con.query(queryFood))
+            Promise.all(promises).then(data => {
+                con.end()
+                fs.writeFileSync('./timeseries.json', JSON.stringify(data))
+                resolve(data)
+            }).catch(err => {
+                logger.error(logPrefix, err)
+                con.end()
+                reject(err)
+            })
+        }).catch(err => {
+            logger.error(logPrefix, err)
+            reject(err)
+        })
+    })
+}
+
+function getAllItems (request) {
+    var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
+    return new Promise((resolve, reject) => {
+        var queryDrinks = 'SELECT Name, price FROM Trinken;'
+        var queryFood = 'SELECT Name, price FROM Essen;'
+        pool.getConnection().then(con => {
+            var promises = []
+            promises.push(con.query(queryDrinks))
+            promises.push(con.query(queryFood))
+            Promise.all(promises).then(data => {
+                con.end()
+                var tmp = [...data[0], ...data[1]]
+                fs.writeFileSync('./items.json', JSON.stringify(tmp))
+                resolve(tmp)
+            }).catch(err => {
+                logger.error(logPrefix, err)
+                con.end()
+                reject(err)
+            })
+        }).catch(err => {
+            logger.error(logPrefix, err)
+            reject(err)
+        })
+    })
+}
+
+
 module.exports = {
     getItems: getItems,
     addItems: addItems,
@@ -630,5 +683,7 @@ module.exports = {
     getNotServedTables: getNotServedTables,
     getNotCashedTables: getNotCashedTables,
     getNotServedItemsByTable: getNotServedItemsByTable,
-    getNotCashedItemsByTable: getNotCashedItemsByTable
+    getNotCashedItemsByTable: getNotCashedItemsByTable,
+    getTimeseries: getTimeseries,
+    getAllItems: getAllItems
 }

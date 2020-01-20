@@ -1,5 +1,4 @@
 import axios from 'axios'
-import Vue from 'vue'
 
 function getObjOfArray (identifier, value, array) {
     var retVal = array.find(item => item[identifier] === value)

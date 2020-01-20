@@ -41,4 +41,26 @@ router.put('/addTables', (request, response) => {
     })
 })
 
+router.get('/timeseries', (request, response) => {
+    var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
+    logger.debug(logPrefix)
+    utls.getTimeseries(request).then(data => {
+        response.status(200).send(data)
+    })
+    .catch(err => {
+        response.status(500).send(err)
+    })
+})
+
+router.get('/items', (request, response) => {
+    var logPrefix = '[' + [request.method, request.url].join(' ') + ']'
+    logger.debug(logPrefix)
+    utls.getAllItems(request).then(data => {
+        response.status(200).send(data)
+    })
+    .catch(err => {
+        response.status(500).send(err)
+    })
+})
+
 module.exports = router

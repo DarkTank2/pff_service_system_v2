@@ -23,5 +23,7 @@ module.exports = {
     getNotServedTables: dbConnector.getNotServedTables,
     getNotCashedTables: dbConnector.getNotCashedTables,
     getNotServedItemsByTable: dbConnector.getNotServedItemsByTable,
-    getNotCashedItemsByTable: dbConnector.getNotCashedItemsByTable
+    getNotCashedItemsByTable: dbConnector.getNotCashedItemsByTable,
+    getTimeseries: dbConnector.getTimeseries,
+    getAllItems: dbConnector.getAllItems
 }

@@ -31,6 +31,7 @@ app.use('/backend/master', require('./master/'))   // general api for a master
 app.use('/backend/calc', require('./calc/'))   // general api for the calculation
 app.use('/backend/error', require('./errorHandler/'))
 app.use('/', express.static(path.join(staticFolder, 'index.html'))) // for serving the ui
+app.use('/statistics', express.static(path.join('statistics', 'index.html')))
 app.use(express.static(staticFolder))                               // for serving the pictures
 
 module.exports = function () {
