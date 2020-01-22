@@ -2,14 +2,14 @@
     <div>
         <v-subheader >{{item.Name}}</v-subheader>
         <v-list-item>
-            <v-list-item-action >
-                <v-btn icon @click="addItem" outlined><v-icon>add</v-icon></v-btn>
+            <v-list-item-action>
+                <v-btn icon @click="removeItem" outlined><v-icon>remove</v-icon></v-btn>
             </v-list-item-action>
             <v-list-item-content>
                 <v-text-field label="Menge" :value="item.amount" @change="handleInput" type="number"></v-text-field>
             </v-list-item-content>
-            <v-list-item-action>
-                <v-btn icon @click="removeItem" outlined><v-icon>remove</v-icon></v-btn>
+            <v-list-item-action >
+                <v-btn icon @click="addItem" outlined><v-icon>add</v-icon></v-btn>
             </v-list-item-action>
         </v-list-item>
     </div>
