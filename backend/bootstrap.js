@@ -3,6 +3,7 @@
 var bodyParser = require('body-parser')
 var logger = new (require('./logger'))('bootstrap')
 var staticFolder = 'resources'
+var statisticsFolder = 'statistics'
 var path = require('path')
 var express = require('express')
 var app = express()
@@ -31,8 +32,9 @@ app.use('/backend/master', require('./master/'))   // general api for a master
 app.use('/backend/calc', require('./calc/'))   // general api for the calculation
 app.use('/backend/error', require('./errorHandler/'))
 app.use('/', express.static(path.join(staticFolder, 'index.html'))) // for serving the ui
-app.use('/statistics', express.static(path.join('statistics', 'index.html')))
+app.use('/statistics', express.static(path.join(statisticsFolder, 'index.html')))
 app.use(express.static(staticFolder))                               // for serving the pictures
+app.use(express.static(statisticsFolder))
 
 module.exports = function () {
     return app

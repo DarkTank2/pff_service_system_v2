@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <v-col cols="12" sm="2" v-for="item in list" :key="item.Name">
-                {{ item.Name + ': ' + item.amount * item.price + '€' }}
+                {{ item.Name + ' x ' + item.amount + ': ' + item.amount * item.price + '€' }}
             </v-col>
         </v-row>
     </v-container>
