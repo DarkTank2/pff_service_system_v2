@@ -101,6 +101,13 @@ export default {
         getItems: function () {
             dbCalls.getItemsByTable('all', this.$route.params.tableId).then(data => {
                 this.items = data
+                if (this.items.notCashed.food.length === 0 && this.items.notCashed.drinks.length === 0 && this.items.notServed.length > 0) {
+                    this.$router.push({name: 'ServantServe', params: {tableId: this.$route.params.tableId}}) // case: nothing to cash but something to serve on current table -> directly to serve this table
+                } else if ((this.items.notCashed.food.length !== 0 || this.items.notCashed.drinks.length !== 0) && this.items.notServed.length === 0) {
+                    this.$router.push({name: 'ServantCash', params: {tableId: this.$route.params.tableId}}) // case: nothing to serve but something to cash on current table -> directly to cash this table
+                } else if (this.items.notCashed.food.length === 0 && this.items.notCashed.drinks.length === 0 && this.items.notServed.length === 0) {
+                    this.$router.push({name: 'ServantTable'}) // nothing to serve nor cash on current table -> back to table selection
+                }
             }).catch(err => {
                 console.log(err)
             })

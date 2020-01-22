@@ -1,6 +1,6 @@
 <template>
-    <v-select v-if="compressed===true" :items='tables' label='Tische' hint='Wähle einen Tisch aus' item-text='name' return-object @change='handleInput' v-model="table"></v-select>
-    <v-list v-else>
+    <v-select v-if="compressed===true && tables.length > 0" :items='tables' label='Tische' hint='Wähle einen Tisch aus' item-text='name' return-object @change='handleInput' v-model="table"></v-select>
+    <v-list v-else-if="tables.length > 0">
         <v-list-item v-for="(table, index) in tables" :key="'table/' + index" :to="{name: 'ServantBase', params: {tableId: table.idTisch}}">
             <v-list-item-content>
                 <v-list-item-title v-text="table.name"></v-list-item-title>
@@ -11,6 +11,7 @@
             <v-icon v-if="table.drinks">local_bar</v-icon>
         </v-list-item>
     </v-list>
+    <v-alert v-else type="info" outlined>Derzeit keine Tische zum Servieren oder Kassieren verfügbar!</v-alert>
 </template>
 <script>
 import dbCalls from '../../utilities/backendCalls.js'

@@ -2,6 +2,9 @@
     <v-card>
         <v-card-title>
             Noch nicht kassiert
+            <v-btn outlined block @click="all">
+                Add all
+            </v-btn>
         </v-card-title>
         <v-card-text>
             <v-divider></v-divider>
@@ -126,6 +129,14 @@ export default {
                 EventBus.$emit('refresh')
             }).catch(err => {
                 console.log(err)
+            })
+        },
+        all: function () {
+            this.items.notCashed.food.forEach(item => {
+                item.selected = (item.Stueck - item.cashed)
+            })
+            this.items.notCashed.drinks.forEach(item => {
+                item.selected = (item.Stueck - item.cashed)
             })
         }
     },
