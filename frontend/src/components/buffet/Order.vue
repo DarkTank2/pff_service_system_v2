@@ -19,7 +19,7 @@
                     </v-list-item>
                     <v-divider v-if="order[comment] !== ''"></v-divider>
                     <v-list-item v-for="(item, index) in order.items" :key="'order/' + type + '/' + order.idBestellung + '/' + index">
-                        <v-list-item-title>{{item.Name + ' x ' + item.Stueck}}</v-list-item-title>
+                        <v-list-item-title :class="item.Name.match(/[Gg]las/) !== null || item.Name.match(/[Ww]asser/) ? 'blue--text' : ''">{{item.Name + ' x ' + item.Stueck}}</v-list-item-title>
                     </v-list-item>
                 </v-list>
             </v-card-text>
@@ -61,6 +61,9 @@ export default {
         }
     },
     watch: {
+        
+    },
+    computed: {
         
     }
 }
