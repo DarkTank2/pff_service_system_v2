@@ -1,7 +1,7 @@
 <template>
     <v-col :cols="lonely ? '3' : '6'">
         <v-card @click="$emit('chosen')">
-            <v-card-title :class="order.chosen === true ? 'red--text' : 'green--text'">
+            <v-card-title :class="order.chosen === true ? 'red--text display-1' : 'green--text display-1'">
                 <span>{{'Bestellung #' + order.idBestellung + ' | Tisch-Nr. #' + order.Number + ' | ' + order.Kellner}}</span>
             </v-card-title>
             <v-divider></v-divider>
@@ -12,20 +12,20 @@
                     </v-subheader>
                     <v-list-item v-if="order[comment] !== ''">
                         <v-list-item-content>
-                            <blockquote class="blockquote">
+                            <blockquote class="blockquote display-1">
                                 {{order[comment]}}
                             </blockquote>
                         </v-list-item-content>
                     </v-list-item>
                     <v-divider v-if="order[comment] !== ''"></v-divider>
                     <v-list-item v-for="(item, index) in order.items" :key="'order/' + type + '/' + order.idBestellung + '/' + index">
-                        <v-list-item-title :class="item.Name.match(/[Gg]las/) !== null || item.Name.match(/[Ww]asser/) ? 'blue--text' : ''">{{item.Name + ' x ' + item.Stueck}}</v-list-item-title>
+                        <v-list-item-title :class="item.Name.match(/[Gg]las/) !== null || item.Name.match(/[Ww]asser/) ? 'blue--text display-1' : 'display-1'">{{item.Name + ' x ' + item.Stueck}}</v-list-item-title>
                     </v-list-item>
                 </v-list>
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-                <v-btn block @click="finalize">
+                <v-btn block @click="finalize" class="headline">
                     Abschließen
                 </v-btn>
             </v-card-actions>
