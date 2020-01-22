@@ -1,7 +1,7 @@
 <template>
     <v-col :cols="lonely ? '3' : '6'">
-        <v-card>
-            <v-card-title>
+        <v-card @click="$emit('chosen')">
+            <v-card-title :class="order.chosen === true ? 'red--text' : 'green--text'">
                 <span>{{'Bestellung #' + order.idBestellung + ' | Tisch-Nr. #' + order.Number + ' | ' + order.Kellner}}</span>
             </v-card-title>
             <v-divider></v-divider>

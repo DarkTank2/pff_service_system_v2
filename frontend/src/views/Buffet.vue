@@ -10,6 +10,7 @@
                     type="food"
                     :lonely="filterDrinks.length === 0"
                     v-on:finalize="finalizeFood(index)"
+                    v-on:chosen="orderChosen({type: 'food', id:order.idBestellung})"
                     />
                 </v-row>
             </v-container>
@@ -24,6 +25,7 @@
                     type="drinks"
                     :lonely="filterFood.length === 0"
                     v-on:finalize="finalizeDrinks(index)"
+                    v-on:chosen="orderChosen({type: 'drinks', id:order.idBestellung})"
                     />
                 </v-row>
             </v-container>
@@ -48,7 +50,8 @@ export default {
             drinks: [],
             timerTime: undefined,
             timerFood: undefined,
-            timerDrinks: undefined
+            timerDrinks: undefined,
+            chosenOrders: []
         }
     },
     created: function () {
@@ -81,8 +84,10 @@ export default {
         updateFood: function () {
             dbCalls.getNotFinished('food').then(data => {
                 this.food = this.clusterOrder(data, 'food')
+                var chosenFoodIds = this.chosenOrders.filter(order => order.type === 'food').map(order => order.id)
                 this.food.forEach(order => {
                     order.visible = true
+                    if (chosenFoodIds.includes(order.idBestellung)) order.chosen = true
                 })
                 this.timerFood = setTimeout(() => {this.updateFood()}, 5000)
             }).catch(err => {
@@ -92,8 +97,10 @@ export default {
         updateDrinks: function () {
             dbCalls.getNotFinished('drinks').then(data => {
                 this.drinks = this.clusterOrder(data, 'drinks')
+                var chosenFoodIds = this.chosenOrders.filter(order => order.type === 'drinks').map(order => order.id)
                 this.drinks.forEach(order => {
                     order.visible = true
+                    if (chosenFoodIds.includes(order.idBestellung)) order.chosen = true
                 })
                 this.timerDrinks = setTimeout(() => {this.updateDrinks()}, 5000)
             }).catch(err => {
@@ -129,9 +136,20 @@ export default {
         },
         finalizeFood: function (index) {
             this.food[index].visible = false
+            var id = this.food[index].idBestellung
+            this.chosenOrders = this.chosenOrders.filter(order => !(order.id === id && order.type === 'food'))
         },
         finalizeDrinks: function (index) {
             this.drinks[index].visible = false
+            var id = this.drinks[index].idBestellung
+            this.chosenOrders = this.chosenOrders.filter(order => !(order.id === id && order.type === 'drinks'))
+        },
+        orderChosen: function (obj) {
+            var order = this[obj.type].find(order => order.idBestellung === obj.id)
+            order.chosen = true
+            this.chosenOrders.push(obj)
+            this.updateFood()
+            this.updateDrinks()
         }
     },
     computed: {
