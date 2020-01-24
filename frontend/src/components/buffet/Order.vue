@@ -1,5 +1,5 @@
 <template>
-    <v-col :cols="lonely ? '3' : '6'">
+    <v-col :cols="lonely ? '6' : '12'">
         <v-card @click="$emit('chosen')">
             <v-card-title :class="order.chosen === true ? 'red--text headline' : 'green--text headline'">
                 <span>{{'Bestellung #' + order.idBestellung + ' | Tisch-Nr. #' + order.Number + ' | ' + order.Kellner}}</span>
