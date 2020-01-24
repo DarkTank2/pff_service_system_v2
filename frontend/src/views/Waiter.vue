@@ -243,14 +243,13 @@ export default {
         },
         fetchCategories: function () {
             this.tabs = 0
-            // not used at pfadiball
-            // dbCalls.getCategories('food').then(data => {
-            //     data.forEach(cat => cat.key = 'cat-food-' + cat.category)
-            //     this.food = data
-            //     EventBus.$emit('refresh-food')
-            // }).catch(err => {
-            //     console.log(err)
-            // })
+            dbCalls.getCategories('food').then(data => {
+                data.forEach(cat => cat.key = 'cat-food-' + cat.category)
+                this.food = data
+                EventBus.$emit('refresh-food')
+            }).catch(err => {
+                console.log(err)
+            })
             dbCalls.getCategories('drinks').then(data => {
                 data.forEach(cat => cat.key = 'cat-drinks-' + cat.category)
                 this.drinks = data
