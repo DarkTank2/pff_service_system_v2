@@ -1,5 +1,5 @@
 <template>
-    <v-col :cols="lonely ? '6' : '12'">
+    <v-col :cols="lonely ? '3' : '6'">
         <v-card @click="$emit('chosen')">
             <v-card-title :class="order.chosen === true ? 'red--text headline' : 'green--text headline'">
                 <span>{{'Bestellung #' + order.idBestellung + ' | Tisch-Nr. #' + order.Number + ' | ' + order.Kellner}}</span>
@@ -19,7 +19,7 @@
                     </v-list-item>
                     <v-divider v-if="order[comment] !== ''"></v-divider>
                     <v-list-item v-for="(item, index) in order.items" :key="'order/' + type + '/' + order.idBestellung + '/' + index">
-                        <v-list-item-title :class="item.Name.match(/[Gg]las/) !== null || item.Name.match(/[Ww]asser/) ? 'blue--text headline' : 'headline'">{{item.Name + ' x ' + item.Stueck}}</v-list-item-title>
+                        <v-list-item-title :class="item.Name.match(/[Gg]las/) !== null || item.Name.match(/[Ww]asser/) ? 'blue--text headline' : 'headline'">{{item.Stueck + ' x ' + item.Name}}</v-list-item-title>
                     </v-list-item>
                 </v-list>
             </v-card-text>
